@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/UI/GameUI.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/UI/UIButton.tscn" type="PackedScene" id=3]
+
+[node name="GameUIScene" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+LeftButtonPath = NodePath("LeftButton/TouchScreenButton")
+RightButtonPath = NodePath("RightButton/TouchScreenButton")
+
+[node name="LeftButton" parent="." instance=ExtResource( 3 )]
+size_flags_vertical = 3
+
+[node name="RightButton" parent="." instance=ExtResource( 3 )]
+anchor_left = 1.0
+rect_scale = Vector2( -1, 1 )
+size_flags_vertical = 3
+
+[editable path="LeftButton"]
+[editable path="RightButton"]
