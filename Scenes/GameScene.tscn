@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Scenes/BgScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Images/MRal.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scripts/MRal.cs" type="Script" id=4]
 [ext_resource path="res://Scenes/GameUIScene.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Fish.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Images/MRal_scarf.png" type="Texture" id=7]
 [ext_resource path="res://Scripts/FishSpawner.cs" type="Script" id=9]
 [ext_resource path="res://Scripts/FishDestroyArea.cs" type="Script" id=10]
 
@@ -45,6 +46,39 @@ animations = [ {
 "speed": 15.0
 } ]
 
+[sub_resource type="AtlasTexture" id=14]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 169, 111 )
+
+[sub_resource type="AtlasTexture" id=15]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 169, 0, 169, 111 )
+
+[sub_resource type="AtlasTexture" id=17]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 169, 111 )
+
+[sub_resource type="AtlasTexture" id=18]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 169, 0, 169, 111 )
+
+[sub_resource type="SpriteFrames" id=16]
+animations = [ {
+"frames": [ SubResource( 14 ), SubResource( 15 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 17 ), SubResource( 18 ) ],
+"loop": true,
+"name": "motion",
+"speed": 15.0
+} ]
+
 [sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 1923, 62 )
 
@@ -66,8 +100,15 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="MRal"]
 position = Vector2( 0, 319 )
 frames = SubResource( 4 )
-animation = "motion"
+animation = "idle"
 frame = 1
+playing = true
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="MRal/AnimatedSprite"]
+modulate = Color( 1, 0, 0, 1 )
+z_index = 1
+frames = SubResource( 16 )
+animation = "idle"
 playing = true
 
 [node name="TopPosition" type="Node2D" parent="."]
