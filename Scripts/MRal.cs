@@ -37,7 +37,7 @@ public class MRal : Area2D
         foreach (var body in bodies)
         {
             if (!(body is Fish fish) || fish.Color != _currentColor) continue;
-            GameManager.FishCollected(fish, true);
+            this.GetManager().EmitSignal(nameof(GameManager.OnFishCollected), fish, true);
         }
     }
 
@@ -46,6 +46,10 @@ public class MRal : Area2D
 
     public override void _Process(float delta)
     {
+        var manager = this.GetManager();
+        if (!manager.IsGameRunning)
+            return;
+
         CheckCollisions();
 
         base._Process(delta);
@@ -57,7 +61,7 @@ public class MRal : Area2D
 
         var lastPos = GlobalPosition;
         horizontal = Mathf.Clamp(horizontal, -1, 1);
-        MoveLocalX(horizontal * delta * MoveSpeed * GameManager.GameSpeedMultiplier);
+        MoveLocalX(horizontal * delta * MoveSpeed * manager.GameSpeedMultiplier);
 
         var scale = _sprite.Scale;
         if (horizontal > 0)

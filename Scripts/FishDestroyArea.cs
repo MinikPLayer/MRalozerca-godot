@@ -5,10 +5,10 @@ public class FishDestroyArea : Area2D
 {
     public void OnAreaEntered(Area2D body)
     {
-        if (body is Fish f)
+        if (body is Fish f && !f.IsCollected)
         {
             GD.Print("Fish lost!");
-            GameManager.FishCollected(f, false);
+            this.GetManager().EmitSignal(nameof(GameManager.OnFishCollected), f, false);
         }
     }
 }

@@ -11,6 +11,7 @@ public class FishSpawner : Area2D
     public override void _Ready()
     {
         base._Ready();
+
         var shape = GetChildren().OfType<CollisionShape2D>().FirstOrDefault();
         if (shape == null)
             throw new Exception("No RectangleShape2D child found!");
@@ -19,16 +20,22 @@ public class FishSpawner : Area2D
             throw new Exception("Child is not a RectangleShape2D!");
 
         _shape = rectShape;
+
+        var gameManager = this.GetManager();
         // Spawn fish if already running to start a game
-        if(GameManager.IsGameRunning)
+        if(gameManager.IsGameRunning)
             SpawnFish();
 
-        GameManager.OnGameStart += SpawnFish;
-        GameManager.OnFishCollected += (f, c) => OnFishDestroyed();
+        gameManager.Connect(nameof(GameManager.OnGameStart), this, nameof(SpawnFish));
+        gameManager.Connect(nameof(GameManager.OnFishCollected), this, nameof(OnFishDestroyed));
     }
 
     private void SpawnFish()
     {
+        var manager = this.GetManager();
+        if (!manager.IsGameRunning)
+            return;
+
         var fish = (Fish)FishScene.Instance();
         fish.Spawner = this;
 
@@ -42,5 +49,5 @@ public class FishSpawner : Area2D
     }
 
     // CalDeferred to avoid area_set_shape_disabled errors
-    private void OnFishDestroyed() => CallDeferred(nameof(SpawnFish));
+    private void OnFishDestroyed(Fish f, bool c) => CallDeferred(nameof(SpawnFish));
 }

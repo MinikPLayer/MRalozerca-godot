@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Scenes/BgScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Images/MRal.png" type="Texture" id=2]
@@ -7,8 +7,11 @@
 [ext_resource path="res://Scenes/GameUIScene.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Fish.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Images/MRal_scarf.png" type="Texture" id=7]
+[ext_resource path="res://Scripts/GameManager.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/FishSpawner.cs" type="Script" id=9]
 [ext_resource path="res://Scripts/FishDestroyArea.cs" type="Script" id=10]
+[ext_resource path="res://Scenes/UI/GameOverUI.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scripts/UI/GameOverUiManager.cs" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 83.5, 55.5 )
@@ -85,7 +88,9 @@ extents = Vector2( 1923, 62 )
 [sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 933, 28 )
 
-[node name="GameScene" type="Node2D"]
+[node name="Game" type="Node2D"]
+script = ExtResource( 8 )
+MaxLives = 5
 
 [node name="BgScene" parent="." instance=ExtResource( 1 )]
 
@@ -101,7 +106,6 @@ shape = SubResource( 1 )
 position = Vector2( 0, 319 )
 frames = SubResource( 4 )
 animation = "idle"
-frame = 1
 playing = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="MRal/AnimatedSprite"]
@@ -123,6 +127,13 @@ TopPath = NodePath("../TopPosition")
 
 [node name="GameUIScene" parent="CanvasLayer" instance=ExtResource( 5 )]
 
+[node name="Lives" parent="CanvasLayer/GameUIScene" index="2"]
+LiveScenePath = null
+
+[node name="GameOverUI" type="Node" parent="CanvasLayer"]
+script = ExtResource( 12 )
+GameOverUiScene = ExtResource( 11 )
+
 [node name="FishDestroyArea" type="Area2D" parent="."]
 position = Vector2( 0, 480 )
 script = ExtResource( 10 )
@@ -142,5 +153,10 @@ FishScene = ExtResource( 6 )
 position = Vector2( -1, -8 )
 shape = SubResource( 13 )
 
+[connection signal="OnLivesChanged" from="." to="CanvasLayer/GameUIScene/Lives" method="OnLivesChanged"]
 [connection signal="InputChangedSignal" from="CanvasLayer/GameUIScene" to="MRal" method="SetExternalInput"]
 [connection signal="area_entered" from="FishDestroyArea" to="FishDestroyArea" method="OnAreaEntered"]
+
+[editable path="CanvasLayer/GameUIScene"]
+[editable path="CanvasLayer/GameUIScene/LeftButton"]
+[editable path="CanvasLayer/GameUIScene/RightButton"]
