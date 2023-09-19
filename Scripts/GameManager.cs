@@ -34,8 +34,10 @@ public class GameManager : Node2D
     [Export] public int MaxLives { get; set; } = 3;
 
     public float GameSpeedMultiplier { get; private set; } = 1.0f;
-    // TODO: Add menu to start the game
-    public bool IsGameRunning { get; private set; } = false;
+
+    public bool IsGamePaused { get; set; } = false;
+    public bool IsGameOver { get; set; } = true;
+    public bool IsGameRunning => !IsGamePaused && !IsGameOver;
 
 
     [Signal]
@@ -46,6 +48,12 @@ public class GameManager : Node2D
 
     [Signal]
     public delegate void OnGameOver();
+
+    [Signal]
+    public delegate void OnGamePaused();
+
+    [Signal]
+    public delegate void OnGameResumed();
 
     [Signal]
     public delegate void OnLivesChanged(int newLives, int maxLives);
@@ -82,14 +90,25 @@ public class GameManager : Node2D
 
     private void StartGame()
     {
-        IsGameRunning = true;
+        IsGameOver = false;
+        IsGamePaused = false;
         CurrentLives = StartLives;
         GameSpeedMultiplier = 1.0f;
     }
 
     private void GameOver()
     {
-        IsGameRunning = false;
+        IsGameOver = true;
+    }
+
+    private void GamePaused()
+    {
+        IsGamePaused = true;
+    }
+
+    private void GameResumed()
+    {
+        IsGamePaused = false;
     }
 
     public override void _Ready()
@@ -99,6 +118,8 @@ public class GameManager : Node2D
         Connect(nameof(OnFishCollected), this, nameof(FishCollected));
         Connect(nameof(OnGameOver), this, nameof(GameOver));
         Connect(nameof(OnGameStart), this, nameof(StartGame));
+        Connect(nameof(OnGamePaused), this, nameof(GamePaused));
+        Connect(nameof(OnGameResumed), this, nameof(GameResumed));
 
         // TODO: Add menu to start the game
         EmitSignal(nameof(OnGameStart));

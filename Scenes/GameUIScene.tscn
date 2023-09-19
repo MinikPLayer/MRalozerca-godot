@@ -27,11 +27,11 @@ rect_scale = Vector2( -1, 1 )
 size_flags_vertical = 3
 
 [node name="Lives" type="HBoxContainer" parent="."]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -378.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -628.0
 margin_top = 25.0
-margin_right = 1122.0
+margin_right = 628.0
 margin_bottom = 416.0
 rect_scale = Vector2( 0.25, 0.25 )
 alignment = 2
@@ -42,18 +42,18 @@ LiveScenePath = ExtResource( 2 )
 size_flags_stretch_ratio = 0.89
 
 [node name="MarginContainer2" parent="Lives" instance=ExtResource( 2 )]
-margin_left = 501.0
-margin_right = 917.0
+margin_left = 420.0
+margin_right = 836.0
 size_flags_stretch_ratio = 0.89
 
 [node name="MarginContainer3" parent="Lives" instance=ExtResource( 2 )]
-margin_left = 1002.0
-margin_right = 1418.0
+margin_left = 840.0
+margin_right = 1256.0
 size_flags_stretch_ratio = 0.89
 
 [node name="Points" type="Label" parent="."]
 margin_left = 25.0
-margin_top = 25.0
+margin_top = 20.0
 margin_right = 435.0
 margin_bottom = 126.0
 custom_fonts/font = SubResource( 1 )

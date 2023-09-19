@@ -13,17 +13,18 @@ public class LivesSystem : HBoxContainer
         foreach (Node child in GetChildren())
             child.Free();
 
-        var width = 0f;
+        var heartWidth = 0;
         // Add new children
         for (var i = 0; i < maxLives; i++)
         {
             var live = LiveScenePath.Instance<Heart>();
-            width += live.Texture.GetWidth() + SeparatorWidth;
+            heartWidth = live.Texture.GetWidth();
             live.SetOn(i < lives);
             AddChild(live);
         }
 
-        MarginLeft = -width * this.RectScale.x;
-        SetSize(new Vector2(width, 500), true);
+        var width = (maxLives - 1) * (heartWidth + SeparatorWidth) + heartWidth;
+        MarginLeft = -((width - SeparatorWidth) * this.RectScale.x) / 2f;
+        SetSize(new Vector2(width, RectSize.y), true);
     }
 }

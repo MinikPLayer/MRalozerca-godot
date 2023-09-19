@@ -30,6 +30,9 @@ public class Fish : Area2D
     {
         base._Process(delta);
 
+        if (!this.GetManager().IsGameRunning)
+            return;
+
         #if DEBUG
             if(Spawner == null)
                 throw new NullReferenceException("Spawner is null! (Forgot to set?)");
