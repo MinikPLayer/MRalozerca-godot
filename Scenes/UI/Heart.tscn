@@ -5,6 +5,7 @@
 [ext_resource path="res://Images/UI/heart_lost.png" type="Texture" id=3]
 
 [node name="Heart" type="TextureRect"]
+modulate = Color( 1, 1, 1, 0.831373 )
 margin_right = 416.0
 margin_bottom = 416.0
 size_flags_horizontal = 2

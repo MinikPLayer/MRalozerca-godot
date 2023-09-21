@@ -25,9 +25,9 @@ public class GameManager : Node2D
     [Export]
     public float MaxGameSpeed { get; set; } = 2.0f;
     [Export]
-    public float GameSpeedIncreaseStep { get; set; } = 0.1f;
+    public float GameSpeedIncreaseMultiplier { get; set; } = 0.03f;
     [Export]
-    public float GameSpeedDecreaseStep { get; set; } = 0.05f;
+    public float GameSpeedDecreaseMultiplier { get; set; } = 0.5f;
     [Export]
     public int StartLives { get; set; } = 3;
 
@@ -77,14 +77,15 @@ public class GameManager : Node2D
     {
         if (collected)
         {
-            GameSpeedMultiplier += GameSpeedIncreaseStep;
+            GameSpeedMultiplier += GameSpeedMultiplier * GameSpeedIncreaseMultiplier;
         }
         else
         {
-            GameSpeedMultiplier -= GameSpeedDecreaseStep;
+            GameSpeedMultiplier = 1.0f + (GameSpeedMultiplier - 1.0f) * GameSpeedDecreaseMultiplier;
             CurrentLives--;
         }
 
+        GD.Print($"Game speed: {GameSpeedMultiplier}");
         GameSpeedMultiplier = Mathf.Clamp(GameSpeedMultiplier, 1.0f, MaxGameSpeed);
     }
 
