@@ -42,8 +42,7 @@ public class FishSpawner : Area2D
         var min = GlobalPosition.x - _shape.Extents.x;
         var max = GlobalPosition.x + _shape.Extents.x;
         AddChild(fish);
-        // TODO: Randomize fish position
-        fish.GlobalPosition = new Vector2(0, GlobalPosition.y);
+        fish.GlobalPosition = new Vector2((float)GD.RandRange(min, max), GlobalPosition.y);
 
         GD.Print("Fish spawned at " + fish.Position + "!");
     }

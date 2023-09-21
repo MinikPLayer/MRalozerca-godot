@@ -18,7 +18,7 @@ public class MRal : Area2D
     private AudioStreamPlayer2D _fishCollectedPlayer;
 
     public const int MaxColors = 3;
-    GameColors _currentColor = GameColors.Green;
+    private GameColors _currentColor = 0;
 
     private float _currentMove = 0;
 
@@ -111,8 +111,17 @@ public class MRal : Area2D
         _spriteScarf.Visible = true;
     }
 
-    public void NextColor() => _currentColor = _currentColor.NextColor();
-    public void PreviousColor() => _currentColor = _currentColor.PreviousColor();
+    public GameColors NextColor()
+    {
+        _currentColor = _currentColor.NextColor();
+        return _currentColor;
+    }
+
+    public GameColors PreviousColor()
+    {
+        _currentColor = _currentColor.PreviousColor();
+        return _currentColor;
+    }
 
     public override void _Process(float delta)
     {

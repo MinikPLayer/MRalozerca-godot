@@ -3,15 +3,18 @@ using Godot;
 
 namespace MRalozerca2.Scripts
 {
+    // TODO: Add different difficulty levels with more colors
     public enum GameColors
     {
         Red = 0,
-        Green = 1,
-        Blue = 2,
+        Blue = 1,
+        Green = 2,
     }
 
     public static class ColorManager
     {
+        public static int EnabledColorsCount = 2;
+
         static readonly Dictionary<GameColors, Color> Colors = new Dictionary<GameColors, Color>()
         {
             {GameColors.Red, new Color(1, 0, 0)},
@@ -38,9 +41,9 @@ namespace MRalozerca2.Scripts
             throw new KeyNotFoundException($"Color {c} not found!");
         }
 
-        public static GameColors NextColor(this GameColors c) => (GameColors) (((int) c + 1) % 3);
-        public static GameColors PreviousColor(this GameColors c) => (GameColors) (((int) c + 2) % 3);
+        public static GameColors NextColor(this GameColors c) => (GameColors) (((int) c + 1) % EnabledColorsCount);
+        public static GameColors PreviousColor(this GameColors c) => (GameColors) (((int) c + 2) % EnabledColorsCount);
 
-        public static GameColors RandomGameColor() => (GameColors)(GD.Randi() % 3);
+        public static GameColors RandomGameColor() => (GameColors)(GD.Randi() % EnabledColorsCount);
     }
 }

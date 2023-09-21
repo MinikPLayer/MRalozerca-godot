@@ -20,6 +20,7 @@ public class GamePausedUI : PopupPanel
 
     public void TogglePause()
     {
+        RectSize = GetViewportRect().Size;
         var manager = this.GetManager();
         var signal = manager.IsGamePaused ? nameof(GameManager.OnGameResumed) : nameof(GameManager.OnGamePaused);
         manager.EmitSignal(signal);

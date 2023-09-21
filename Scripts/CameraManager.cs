@@ -9,6 +9,9 @@ public class CameraManager : Camera2D
     [Export] public float LostShakeDuration = 0.5f;
     [Export] public float CollectedShakeDuration = 0f;
 
+    [Export] public float LostVibrationDuration = 0.3f;
+    [Export] public float CollectedVibrationDuration = 0.1f;
+
     [Export] public float ShakeMultiplier = 30.0f;
 
     private float _currentShake = 0.0f;
@@ -25,7 +28,16 @@ public class CameraManager : Camera2D
 
     private void OnFishCollected(Fish _, bool collected)
     {
-        _currentShake = collected ? CollectedShakeDuration : LostShakeDuration;
+        if (collected)
+        {
+            Input.VibrateHandheld((int)(CollectedVibrationDuration * 1000));
+            _currentShake = CollectedShakeDuration;
+        }
+        else
+        {
+            Input.VibrateHandheld((int)(LostVibrationDuration * 1000));
+            _currentShake = LostShakeDuration;
+        }
     }
 
     public override void _Ready()
