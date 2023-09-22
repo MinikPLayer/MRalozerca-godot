@@ -9,17 +9,20 @@ namespace MRalozerca2.Scripts
         Red = 0,
         Blue = 1,
         Green = 2,
+        Yellow = 3,
+        Pink = 4,
     }
 
     public static class ColorManager
     {
-        public static int EnabledColorsCount = 2;
 
         static readonly Dictionary<GameColors, Color> Colors = new Dictionary<GameColors, Color>()
         {
             {GameColors.Red, new Color(1, 0, 0)},
             {GameColors.Green, new Color(0, 1, 0)},
             {GameColors.Blue, new Color(0, 0, 1)},
+            {GameColors.Yellow, new Color(1, 1f, 0f)},
+            {GameColors.Pink, new Color(1f, 0.07f, 0.58f)},
         };
 
         public static Color ToColor(this GameColors c)
@@ -41,9 +44,9 @@ namespace MRalozerca2.Scripts
             throw new KeyNotFoundException($"Color {c} not found!");
         }
 
-        public static GameColors NextColor(this GameColors c) => (GameColors) (((int) c + 1) % EnabledColorsCount);
-        public static GameColors PreviousColor(this GameColors c) => (GameColors) (((int) c + 2) % EnabledColorsCount);
+        public static GameColors NextColor(this GameColors c) => (GameColors) (((int) c + 1) % Difficulty.CurrentLevel.MaxColors);
+        public static GameColors PreviousColor(this GameColors c) => (GameColors) (((int) c + (Difficulty.CurrentLevel.MaxColors - 1)) % Difficulty.CurrentLevel.MaxColors);
 
-        public static GameColors RandomGameColor() => (GameColors)(GD.Randi() % EnabledColorsCount);
+        public static GameColors RandomGameColor() => (GameColors)(GD.Randi() % Difficulty.CurrentLevel.MaxColors);
     }
 }

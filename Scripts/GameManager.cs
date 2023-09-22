@@ -22,17 +22,6 @@ public static class GameManagerExtensions
 // [TODO] Time Attack - Collect as many fish as you can in a given time
 public class GameManager : Node2D
 {
-    [Export]
-    public float MaxGameSpeed { get; set; } = 2.0f;
-    [Export]
-    public float GameSpeedIncreaseMultiplier { get; set; } = 0.03f;
-    [Export]
-    public float GameSpeedDecreaseMultiplier { get; set; } = 0.5f;
-    [Export]
-    public int StartLives { get; set; } = 3;
-
-    [Export] public int MaxLives { get; set; } = 3;
-
     public float GameSpeedMultiplier { get; private set; } = 1.0f;
 
     public bool IsGamePaused { get; set; } = false;
@@ -64,8 +53,8 @@ public class GameManager : Node2D
         get => _currentLives;
         set
         {
-            _currentLives = Mathf.Clamp(value, 0, MaxLives);
-            EmitSignal(nameof(OnLivesChanged), _currentLives, MaxLives);
+            _currentLives = Mathf.Clamp(value, 0, this.GetDifficulty().MaxLives);
+            EmitSignal(nameof(OnLivesChanged), _currentLives, this.GetDifficulty().MaxLives);
 
             if (_currentLives == 0)
                 EmitSignal(nameof(OnGameOver));
@@ -77,24 +66,24 @@ public class GameManager : Node2D
     {
         if (collected)
         {
-            GameSpeedMultiplier += GameSpeedMultiplier * GameSpeedIncreaseMultiplier;
+            GameSpeedMultiplier += GameSpeedMultiplier * this.GetDifficulty().GameSpeedIncreaseMultiplier;
         }
         else
         {
-            GameSpeedMultiplier = 1.0f + (GameSpeedMultiplier - 1.0f) * GameSpeedDecreaseMultiplier;
+            GameSpeedMultiplier = this.GetDifficulty().GameSpeedMultiplierStart + (GameSpeedMultiplier - this.GetDifficulty().GameSpeedMultiplierStart) * this.GetDifficulty().GameSpeedDecreaseMultiplier;
             CurrentLives--;
         }
 
         GD.Print($"Game speed: {GameSpeedMultiplier}");
-        GameSpeedMultiplier = Mathf.Clamp(GameSpeedMultiplier, 1.0f, MaxGameSpeed);
+        GameSpeedMultiplier = Mathf.Clamp(GameSpeedMultiplier, this.GetDifficulty().GameSpeedMultiplierStart, this.GetDifficulty().GameSpeedMax);
     }
 
     private void StartGame()
     {
         IsGameOver = false;
         IsGamePaused = false;
-        CurrentLives = StartLives;
-        GameSpeedMultiplier = 1.0f;
+        CurrentLives = this.GetDifficulty().StartLives;
+        GameSpeedMultiplier = this.GetDifficulty().GameSpeedMultiplierStart;
     }
 
     private void GameOver()

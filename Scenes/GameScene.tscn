@@ -111,7 +111,6 @@ extents = Vector2( 933, 28 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 8 )
-MaxLives = 5
 
 [node name="BgScene" parent="." instance=ExtResource( 1 )]
 
@@ -128,6 +127,7 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="MRal"]
 frames = SubResource( 4 )
 animation = "idle"
+frame = 1
 playing = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="MRal/AnimatedSprite"]
@@ -135,6 +135,7 @@ modulate = Color( 1, 0, 0, 1 )
 z_index = 1
 frames = SubResource( 16 )
 animation = "idle"
+frame = 1
 playing = true
 
 [node name="FishCollectedAudioPlayer" type="AudioStreamPlayer2D" parent="MRal"]
