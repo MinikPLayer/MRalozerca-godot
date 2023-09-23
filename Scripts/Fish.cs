@@ -43,7 +43,7 @@ public class Fish : Area2D
         GetChild<Node2D>(0).Rotate(Mathf.Deg2Rad(RotationSpeed * delta));
 
         var speedMultiplier = this.GetManager().GameSpeedMultiplier;
-        _currentSpeed += Gravity * delta * speedMultiplier * speedMultiplier;
+        _currentSpeed += Gravity * delta * Mathf.Pow(speedMultiplier, 1.5f);
         MoveLocalY(_currentSpeed * delta);
 
         _insideSprite.Modulate = Color.ToColor();

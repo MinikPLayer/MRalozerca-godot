@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class GameUI : Node
+public class GameUI : Control
 {
     [Export] public NodePath LeftButtonPath;
     [Export] public NodePath RightButtonPath;

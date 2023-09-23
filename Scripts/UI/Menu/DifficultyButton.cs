@@ -37,6 +37,7 @@ public class DifficultyButton : TextureRect
 
     private void SetDifficultyIndex(int index)
     {
+        Config.Instance.DifficultyLevel = index;
         Difficulty.SetDifficulty(_levels[index]);
     }
 
@@ -65,11 +66,13 @@ public class DifficultyButton : TextureRect
 
         SetDifficultyIndex(index);
         UpdateDifficulty();
+        Config.Instance.Save();
     }
 
     public override void _Ready()
     {
         base._Ready();
+        SetDifficultyIndex(Config.Instance.DifficultyLevel);
 
         if(Textures.Length != DifficultyNames.Length || Textures.Length != Colors.Length)
         {

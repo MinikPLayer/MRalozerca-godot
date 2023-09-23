@@ -22,20 +22,22 @@ offset = Vector2( 1730, -1007 )
 flip_h = true
 
 [node name="Background4" type="Sprite" parent="."]
-position = Vector2( 0, -1063 )
+position = Vector2( 1857, -637 )
 texture = ExtResource( 1 )
+offset = Vector2( -1857, -426 )
 flip_v = true
 
 [node name="Background5" type="Sprite" parent="."]
-position = Vector2( 0, -1063 )
+position = Vector2( 1857, -637 )
 texture = ExtResource( 1 )
-offset = Vector2( -1950, 0 )
+offset = Vector2( -3807, -426 )
 flip_h = true
 flip_v = true
 
 [node name="Background6" type="Sprite" parent="."]
-position = Vector2( 1950, -1063 )
+position = Vector2( 1857, -637 )
 texture = ExtResource( 1 )
+offset = Vector2( 93, -426 )
 flip_h = true
 flip_v = true
 
@@ -59,5 +61,65 @@ position = Vector2( 220, 16008 )
 scale = Vector2( 1, 10 )
 texture = ExtResource( 1 )
 offset = Vector2( 1730, -1007 )
+flip_h = true
+flip_v = true
+
+[node name="Background10" type="Sprite" parent="."]
+position = Vector2( 1857, -1498 )
+texture = ExtResource( 1 )
+offset = Vector2( -1857, -426 )
+flip_v = true
+
+[node name="Background11" type="Sprite" parent="."]
+position = Vector2( 1857, -1498 )
+texture = ExtResource( 1 )
+offset = Vector2( -3807, -426 )
+flip_h = true
+flip_v = true
+
+[node name="Background12" type="Sprite" parent="."]
+position = Vector2( 1857, -1498 )
+texture = ExtResource( 1 )
+offset = Vector2( 93, -426 )
+flip_h = true
+flip_v = true
+
+[node name="Background13" type="Sprite" parent="."]
+position = Vector2( 1857, -2344 )
+texture = ExtResource( 1 )
+offset = Vector2( -1857, -426 )
+flip_v = true
+
+[node name="Background14" type="Sprite" parent="."]
+position = Vector2( 1857, -2344 )
+texture = ExtResource( 1 )
+offset = Vector2( -3807, -426 )
+flip_h = true
+flip_v = true
+
+[node name="Background15" type="Sprite" parent="."]
+position = Vector2( 1857, -2344 )
+texture = ExtResource( 1 )
+offset = Vector2( 93, -426 )
+flip_h = true
+flip_v = true
+
+[node name="Background16" type="Sprite" parent="."]
+position = Vector2( 1857, -3204 )
+texture = ExtResource( 1 )
+offset = Vector2( -1857, -426 )
+flip_v = true
+
+[node name="Background17" type="Sprite" parent="."]
+position = Vector2( 1857, -3204 )
+texture = ExtResource( 1 )
+offset = Vector2( -3807, -426 )
+flip_h = true
+flip_v = true
+
+[node name="Background18" type="Sprite" parent="."]
+position = Vector2( 1857, -3204 )
+texture = ExtResource( 1 )
+offset = Vector2( 93, -426 )
 flip_h = true
 flip_v = true

@@ -43,7 +43,7 @@ public static class Difficulty
 
     public static readonly Level LevelEasy = new Level(
         maxColors: 2,
-        gameSpeedMultiplierStart: 0.5f,
+        gameSpeedMultiplierStart: 1.0f,
         gameSpeedIncreaseMultiplier: 0.02f,
         gameSpeedDecreaseMultiplier: 0.75f,
         gameSpeedMax: 1.5f,
@@ -92,7 +92,11 @@ public static class Difficulty
     );
 
     public static Level CurrentLevel { get; private set; } = LevelNormal;
-    public static void SetDifficulty(Level level) => CurrentLevel = level;
+
+    public static void SetDifficulty(Level level)
+    {
+        CurrentLevel = level;
+    }
 
     public static Level GetDifficulty(this Node node) => CurrentLevel;
 

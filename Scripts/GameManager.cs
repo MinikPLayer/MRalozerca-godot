@@ -24,9 +24,10 @@ public class GameManager : Node2D
 {
     public float GameSpeedMultiplier { get; private set; } = 1.0f;
 
+    public bool IsGameStarted { get; set; } = false;
     public bool IsGamePaused { get; set; } = false;
     public bool IsGameOver { get; set; } = true;
-    public bool IsGameRunning => !IsGamePaused && !IsGameOver;
+    public bool IsGameRunning => !IsGamePaused && !IsGameOver && IsGameStarted;
 
 
     [Signal]
@@ -78,25 +79,26 @@ public class GameManager : Node2D
         GameSpeedMultiplier = Mathf.Clamp(GameSpeedMultiplier, this.GetDifficulty().GameSpeedMultiplierStart, this.GetDifficulty().GameSpeedMax);
     }
 
-    private void StartGame()
+    private void OnGameStartedEvent()
     {
         IsGameOver = false;
         IsGamePaused = false;
+        IsGameStarted = true;
         CurrentLives = this.GetDifficulty().StartLives;
         GameSpeedMultiplier = this.GetDifficulty().GameSpeedMultiplierStart;
     }
 
-    private void GameOver()
+    private void OnGameOverEvent()
     {
         IsGameOver = true;
     }
 
-    private void GamePaused()
+    private void OnGamePausedEvent()
     {
         IsGamePaused = true;
     }
 
-    private void GameResumed()
+    private void OnGameResumedEvent()
     {
         IsGamePaused = false;
     }
@@ -106,13 +108,12 @@ public class GameManager : Node2D
         base._Ready();
 
         Connect(nameof(OnFishCollected), this, nameof(FishCollected));
-        Connect(nameof(OnGameOver), this, nameof(GameOver));
-        Connect(nameof(OnGameStart), this, nameof(StartGame));
-        Connect(nameof(OnGamePaused), this, nameof(GamePaused));
-        Connect(nameof(OnGameResumed), this, nameof(GameResumed));
+        Connect(nameof(OnGameOver), this, nameof(OnGameOverEvent));
+        Connect(nameof(OnGameStart), this, nameof(OnGameStartedEvent));
+        Connect(nameof(OnGamePaused), this, nameof(OnGamePausedEvent));
+        Connect(nameof(OnGameResumed), this, nameof(OnGameResumedEvent));
 
-        // TODO: Add menu to start the game
-        EmitSignal(nameof(OnGameStart));
+        CurrentLives = this.GetDifficulty().StartLives;
     }
 
     public override void _Process(float delta)

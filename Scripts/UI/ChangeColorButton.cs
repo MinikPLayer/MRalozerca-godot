@@ -38,6 +38,7 @@ public class ChangeColorButton : TouchScreenButton
         var color = _mral.NextColor();
 
         _currentColor = color.ToColor();
+        Input.VibrateHandheld(10);
     }
 
     public override void _Process(float delta)

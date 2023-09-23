@@ -1,14 +1,18 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/BgScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Fonts/ComicSans.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Themes/DefaultTheme.tres" type="Theme" id=3]
 [ext_resource path="res://Images/UI/Difficulty_easy.png" type="Texture" id=4]
-[ext_resource path="res://Scripts/UI/DifficultyButton.cs" type="Script" id=5]
+[ext_resource path="res://Scripts/UI/Menu/DifficultyButton.cs" type="Script" id=5]
 [ext_resource path="res://Images/UI/Difficulty_vhard.png" type="Texture" id=6]
 [ext_resource path="res://Images/UI/Difficulty_hardcore.png" type="Texture" id=7]
 [ext_resource path="res://Images/UI/Difficulty_normal.png" type="Texture" id=8]
 [ext_resource path="res://Images/UI/Difficulty_hard.png" type="Texture" id=9]
+[ext_resource path="res://Scripts/UI/Menu/MenuTransition.cs" type="Script" id=10]
+[ext_resource path="res://Scenes/GameScene.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scripts/UI/Menu/StartButtonScript.cs" type="Script" id=12]
+[ext_resource path="res://Scripts/UI/Menu/LeaderboardsWidget.cs" type="Script" id=13]
 
 [sub_resource type="DynamicFont" id=1]
 size = 240
@@ -22,22 +26,37 @@ font_data = ExtResource( 2 )
 size = 100
 font_data = ExtResource( 2 )
 
+[sub_resource type="DynamicFont" id=5]
+size = 36
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 32
+font_data = ExtResource( 2 )
+
 [node name="MainMenu" type="Node2D"]
 
 [node name="BgScene" parent="." instance=ExtResource( 1 )]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+script = ExtResource( 10 )
+GameScene = ExtResource( 11 )
+GameUiNodePath = NodePath("../CanvasLayer/Control")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+[node name="Control" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 2
 theme = ExtResource( 3 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer"]
 margin_left = 640.0
 margin_top = 100.0
 margin_right = 1279.0
@@ -46,7 +65,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 6
 theme = ExtResource( 3 )
 
-[node name="MRalLabel" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer"]
+[node name="MRalLabel" type="Label" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer"]
 margin_right = 552.0
 margin_bottom = 335.0
 size_flags_horizontal = 3
@@ -58,7 +77,7 @@ custom_constants/shadow_offset_y = 8
 custom_fonts/font = SubResource( 1 )
 text = "MRal"
 
-[node name="V2Label" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer"]
+[node name="V2Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer"]
 margin_left = 560.0
 margin_right = 639.0
 margin_bottom = 101.0
@@ -71,7 +90,7 @@ custom_constants/shadow_offset_y = 4
 custom_fonts/font = SubResource( 2 )
 text = "v2"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/VBoxContainer"]
 margin_top = 544.0
 margin_right = 1920.0
 margin_bottom = 642.0
@@ -79,7 +98,7 @@ size_flags_vertical = 2
 theme = ExtResource( 3 )
 custom_constants/separation = 64
 
-[node name="StartButton" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
+[node name="StartButton" type="Button" parent="CanvasLayer/Control/VBoxContainer/VBoxContainer"]
 margin_left = 743.0
 margin_right = 1177.0
 margin_bottom = 98.0
@@ -87,14 +106,14 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 theme = ExtResource( 3 )
 text = "START GAME"
+script = ExtResource( 12 )
 
-[node name="DifficultyIndicator" type="TextureRect" parent="CanvasLayer"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = 500.0
+[node name="DifficultyIndicator" type="TextureRect" parent="CanvasLayer/Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -500.0
 margin_top = 100.0
-margin_right = 1300.0
-margin_bottom = 900.0
+margin_bottom = 800.0
 rect_scale = Vector2( 0.5, 0.5 )
 size_flags_vertical = 4
 texture = ExtResource( 7 )
@@ -104,20 +123,19 @@ DifficultyNames = PoolStringArray( "Easy", "Normal", "Hard", "Very hard", "Hardc
 Colors = PoolColorArray( 0, 1, 0.576471, 1, 0, 1, 0.0823529, 1, 0.854902, 1, 0, 1, 1, 0.490196, 0, 1, 1, 0, 0, 1 )
 DifficultyLabelPath = NodePath("../VBoxContainer2/DifficultyLevelName")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = 550.0
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -410.0
 margin_top = 200.0
-margin_right = 1139.0
-margin_bottom = 600.0
+margin_bottom = 400.0
 rect_scale = Vector2( 0.5, 0.5 )
 size_flags_vertical = 3
 alignment = 1
 
-[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer2"]
-margin_left = 137.0
-margin_right = 451.0
+[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer2"]
+margin_left = 122.0
+margin_right = 436.0
 margin_bottom = 90.0
 size_flags_horizontal = 6
 size_flags_vertical = 0
@@ -126,10 +144,9 @@ text = "Difficulty:"
 align = 1
 valign = 1
 
-[node name="DifficultyLevelName" type="Label" parent="CanvasLayer/VBoxContainer2"]
-margin_left = 15.0
+[node name="DifficultyLevelName" type="Label" parent="CanvasLayer/Control/VBoxContainer2"]
 margin_top = 94.0
-margin_right = 574.0
+margin_right = 559.0
 margin_bottom = 235.0
 size_flags_horizontal = 6
 size_flags_vertical = 0
@@ -140,14 +157,56 @@ custom_constants/shadow_offset_y = 8
 custom_fonts/font = SubResource( 3 )
 text = "UNKNOWN"
 
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer2"]
-margin_left = 184.0
-margin_top = 302.0
-margin_right = 404.0
-margin_bottom = 400.0
+[node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer2"]
+margin_left = 169.0
+margin_top = 239.0
+margin_right = 389.0
+margin_bottom = 337.0
 size_flags_horizontal = 4
 size_flags_vertical = 10
 theme = ExtResource( 3 )
 text = "Change"
 
-[connection signal="pressed" from="CanvasLayer/VBoxContainer2/Button" to="CanvasLayer/DifficultyIndicator" method="_on_DifficultyButton_pressed"]
+[node name="Panel" type="Panel" parent="CanvasLayer/Control"]
+anchor_bottom = 1.0
+margin_left = 150.0
+margin_top = 150.0
+margin_right = 500.0
+margin_bottom = -200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 3 )
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasLayer/Control/Panel"]
+anchor_bottom = 1.0
+margin_right = 350.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Panel/VBoxContainer3"]
+margin_right = 350.0
+margin_bottom = 51.0
+theme = ExtResource( 3 )
+custom_fonts/font = SubResource( 5 )
+text = "Leaderboards:"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/Panel/VBoxContainer3"]
+margin_top = 59.0
+margin_right = 350.0
+margin_bottom = 730.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="Leaderboards" type="VBoxContainer" parent="CanvasLayer/Control/Panel/VBoxContainer3/ScrollContainer"]
+margin_right = 350.0
+margin_bottom = 671.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 10
+script = ExtResource( 13 )
+Font = SubResource( 4 )
+
+[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/VBoxContainer/StartButton" to="Camera2D" method="TransitionToGame"]
+[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/VBoxContainer/StartButton" to="CanvasLayer/Control/VBoxContainer/VBoxContainer/StartButton" method="OnPressed"]
+[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer2/Button" to="CanvasLayer/Control/DifficultyIndicator" method="_on_DifficultyButton_pressed"]

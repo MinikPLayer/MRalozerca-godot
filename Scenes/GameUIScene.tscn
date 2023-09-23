@@ -48,7 +48,6 @@ size_flags_vertical = 3
 [node name="Lives" type="HBoxContainer" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -628.0
 margin_top = 25.0
 margin_right = 628.0
 margin_bottom = 416.0
@@ -76,7 +75,7 @@ margin_top = 20.0
 margin_right = 435.0
 margin_bottom = 126.0
 custom_fonts/font = SubResource( 1 )
-text = "Points: 1000"
+text = "Points: 0"
 script = ExtResource( 6 )
 
 [node name="ColorChangeIndicator" type="TextureRect" parent="."]
