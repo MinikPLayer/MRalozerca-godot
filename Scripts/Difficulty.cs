@@ -23,6 +23,22 @@ public static class Difficulty
             StartLives = startLives;
             MaxLives = maxLives;
         }
+
+        public static bool operator==(Level a, Level b)
+        {
+            return a.MaxColors == b.MaxColors &&
+                   a.GameSpeedMultiplierStart == b.GameSpeedMultiplierStart &&
+                   a.GameSpeedIncreaseMultiplier == b.GameSpeedIncreaseMultiplier &&
+                   a.GameSpeedDecreaseMultiplier == b.GameSpeedDecreaseMultiplier &&
+                   a.GameSpeedMax == b.GameSpeedMax &&
+                   a.StartLives == b.StartLives &&
+                   a.MaxLives == b.MaxLives;
+        }
+
+        public static bool operator !=(Level a, Level b)
+        {
+            return !(a == b);
+        }
     }
 
     public static readonly Level LevelEasy = new Level(
@@ -75,7 +91,8 @@ public static class Difficulty
         maxLives: 1
     );
 
-    public static Level CurrentLevel { get; private set; } = LevelHardcore;
+    public static Level CurrentLevel { get; private set; } = LevelNormal;
+    public static void SetDifficulty(Level level) => CurrentLevel = level;
 
     public static Level GetDifficulty(this Node node) => CurrentLevel;
 

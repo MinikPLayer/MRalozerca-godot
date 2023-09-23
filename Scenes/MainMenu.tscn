@@ -1,0 +1,153 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Scenes/BgScene.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Fonts/ComicSans.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Themes/DefaultTheme.tres" type="Theme" id=3]
+[ext_resource path="res://Images/UI/Difficulty_easy.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/UI/DifficultyButton.cs" type="Script" id=5]
+[ext_resource path="res://Images/UI/Difficulty_vhard.png" type="Texture" id=6]
+[ext_resource path="res://Images/UI/Difficulty_hardcore.png" type="Texture" id=7]
+[ext_resource path="res://Images/UI/Difficulty_normal.png" type="Texture" id=8]
+[ext_resource path="res://Images/UI/Difficulty_hard.png" type="Texture" id=9]
+
+[sub_resource type="DynamicFont" id=1]
+size = 240
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 72
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 100
+font_data = ExtResource( 2 )
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="BgScene" parent="." instance=ExtResource( 1 )]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 2
+theme = ExtResource( 3 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer"]
+margin_left = 640.0
+margin_top = 100.0
+margin_right = 1279.0
+margin_bottom = 435.0
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme = ExtResource( 3 )
+
+[node name="MRalLabel" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer"]
+margin_right = 552.0
+margin_bottom = 335.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 8
+custom_constants/shadow_offset_y = 8
+custom_fonts/font = SubResource( 1 )
+text = "MRal"
+
+[node name="V2Label" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer"]
+margin_left = 560.0
+margin_right = 639.0
+margin_bottom = 101.0
+size_flags_vertical = 0
+theme = ExtResource( 3 )
+custom_colors/font_color = Color( 0.768627, 0.768627, 0.768627, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
+custom_fonts/font = SubResource( 2 )
+text = "v2"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer"]
+margin_top = 544.0
+margin_right = 1920.0
+margin_bottom = 642.0
+size_flags_vertical = 2
+theme = ExtResource( 3 )
+custom_constants/separation = 64
+
+[node name="StartButton" type="Button" parent="CanvasLayer/VBoxContainer/VBoxContainer"]
+margin_left = 743.0
+margin_right = 1177.0
+margin_bottom = 98.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource( 3 )
+text = "START GAME"
+
+[node name="DifficultyIndicator" type="TextureRect" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 500.0
+margin_top = 100.0
+margin_right = 400.0
+margin_bottom = 800.0
+rect_scale = Vector2( 0.5, 0.5 )
+size_flags_vertical = 4
+texture = ExtResource( 7 )
+script = ExtResource( 5 )
+Textures = [ ExtResource( 4 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 6 ), ExtResource( 7 ) ]
+DifficultyNames = PoolStringArray( "Easy", "Normal", "Hard", "Very hard", "Hardcore" )
+Colors = PoolColorArray( 0, 1, 0.576471, 1, 0, 1, 0.0823529, 1, 0.854902, 1, 0, 1, 1, 0.490196, 0, 1, 1, 0, 0, 1 )
+DifficultyLabelPath = NodePath("../VBoxContainer2/DifficultyLevelName")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 550.0
+margin_top = 200.0
+margin_right = 1139.0
+margin_bottom = 600.0
+rect_scale = Vector2( 0.5, 0.5 )
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer2"]
+margin_left = 137.0
+margin_right = 451.0
+margin_bottom = 90.0
+size_flags_horizontal = 6
+size_flags_vertical = 0
+theme = ExtResource( 3 )
+text = "Difficulty:"
+align = 1
+valign = 1
+
+[node name="DifficultyLevelName" type="Label" parent="CanvasLayer/VBoxContainer2"]
+margin_left = 15.0
+margin_top = 94.0
+margin_right = 574.0
+margin_bottom = 235.0
+size_flags_horizontal = 6
+size_flags_vertical = 0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 8
+custom_constants/shadow_offset_y = 8
+custom_fonts/font = SubResource( 3 )
+text = "UNKNOWN"
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer2"]
+margin_left = 184.0
+margin_top = 302.0
+margin_right = 404.0
+margin_bottom = 400.0
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme = ExtResource( 3 )
+text = "Change"
+
+[connection signal="pressed" from="CanvasLayer/VBoxContainer2/Button" to="CanvasLayer/DifficultyIndicator" method="_on_DifficultyButton_pressed"]
