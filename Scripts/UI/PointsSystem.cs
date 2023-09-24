@@ -28,6 +28,13 @@ public class PointsSystem : Label
         var manager = this.GetManager();
         manager.Connect(nameof(GameManager.OnFishCollected), this, nameof(OnFishCollected));
         manager.Connect(nameof(GameManager.OnGameStart), this, nameof(OnGameStart));
+        manager.Connect(nameof(GameManager.OnGameOver), this, nameof(OnGameOver));
+    }
+
+    private void OnGameOver()
+    {
+        if(CurrentPoints > 0)
+            LeaderboardsSave.Instance.AddEntry(CurrentPoints, Difficulty.CurrentLevelIndex);
     }
 
     private void OnGameStart()

@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public static class Difficulty
 {
@@ -91,11 +92,21 @@ public static class Difficulty
         maxLives: 1
     );
 
-    public static Level CurrentLevel { get; private set; } = LevelNormal;
-
-    public static void SetDifficulty(Level level)
+    public static Dictionary<int, (string name, Color color, Level levelData)> Levels { get; } = new Dictionary<int, (string, Color, Level)>()
     {
-        CurrentLevel = level;
+        { 0, ("Easy", new Color("00FF93"),  LevelEasy) },
+        { 1, ("Normal", new Color("00FF15"), LevelNormal) },
+        { 2, ("Hard", new Color("DAFF00"), LevelHard) },
+        { 3, ("Very Hard", new Color("FF7D00"), LevelVeryHard) },
+        { 4, ("Hardcore", new Color("FF0000"), LevelHardcore) },
+    };
+
+    public static int CurrentLevelIndex { get; private set; } = 1;
+    public static Level CurrentLevel => Levels[CurrentLevelIndex].levelData;
+
+    public static void SetDifficulty(int level)
+    {
+        CurrentLevelIndex = level;
     }
 
     public static Level GetDifficulty(this Node node) => CurrentLevel;

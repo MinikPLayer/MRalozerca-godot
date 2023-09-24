@@ -3,6 +3,13 @@ using System;
 
 public class StartButtonScript : Button
 {
+    public override void _Ready()
+    {
+        base._Ready();
+
+        GD.Randomize();
+    }
+
     private void Disable(Node n)
     {
         if (n is Button b)

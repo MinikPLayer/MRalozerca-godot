@@ -3,51 +3,28 @@ using System;
 
 public class DifficultyButton : TextureRect
 {
-
     [Export] public Texture[] Textures;
-    [Export] public string[] DifficultyNames;
-    [Export] public Color[] Colors;
 
     [Export] public NodePath DifficultyLabelPath;
 
+    [Signal]
+    public delegate void OnDifficultyChanged(int newLevel);
+
     private Label _difficultyLevelLabel;
-
-    private readonly Difficulty.Level[] _levels = new Difficulty.Level[]
-    {
-        Difficulty.LevelEasy,
-        Difficulty.LevelNormal,
-        Difficulty.LevelHard,
-        Difficulty.LevelVeryHard,
-        Difficulty.LevelHardcore
-    };
-
-    private int GetDifficultyIndex()
-    {
-        var curDif = Difficulty.CurrentLevel;
-        for(var i = 0; i < _levels.Length; i++)
-        {
-            if(curDif == _levels[i])
-            {
-                return i;
-            }
-        }
-
-        throw new Exception("DifficultyButton: Current difficulty not found");
-    }
 
     private void SetDifficultyIndex(int index)
     {
         Config.Instance.DifficultyLevel = index;
-        Difficulty.SetDifficulty(_levels[index]);
+        Difficulty.SetDifficulty(index);
     }
 
     private void UpdateDifficulty()
     {
-        var index = GetDifficultyIndex();
+        var index = Difficulty.CurrentLevelIndex;
 
         var texture = Textures[index];
-        var name = DifficultyNames[index];
-        var color = Colors[index];
+        var name = Difficulty.Levels[index].name;
+        var color = Difficulty.Levels[index].color;
 
         _difficultyLevelLabel.Text = name;
         _difficultyLevelLabel.AddColorOverride("font_color", color);
@@ -57,16 +34,16 @@ public class DifficultyButton : TextureRect
 
     private void _on_DifficultyButton_pressed()
     {
-        var index = GetDifficultyIndex();
+        var index = Difficulty.CurrentLevelIndex;
         index++;
-        if(index >= _levels.Length)
-        {
+        if(index >= Difficulty.Levels.Keys.Count)
             index = 0;
-        }
 
         SetDifficultyIndex(index);
         UpdateDifficulty();
         Config.Instance.Save();
+
+        EmitSignal(nameof(OnDifficultyChanged), index);
     }
 
     public override void _Ready()
@@ -74,7 +51,7 @@ public class DifficultyButton : TextureRect
         base._Ready();
         SetDifficultyIndex(Config.Instance.DifficultyLevel);
 
-        if(Textures.Length != DifficultyNames.Length || Textures.Length != Colors.Length)
+        if(Textures.Length != Difficulty.Levels.Count)
         {
             GD.PrintErr("DifficultyButton: Textures, DifficultyNames and Colors must have the same length");
             throw new Exception("DifficultyButton: Textures, DifficultyNames and Colors must have the same length");
