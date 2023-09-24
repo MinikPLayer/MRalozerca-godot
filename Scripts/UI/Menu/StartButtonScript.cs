@@ -19,6 +19,11 @@ public class StartButtonScript : Button
             Disable(child);
     }
 
+    public void ExitGamePressed()
+    {
+        GetTree().Quit();
+    }
+
     public void OnPressed()
     {
         // Disable all buttons in current scene

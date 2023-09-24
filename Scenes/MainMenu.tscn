@@ -110,20 +110,28 @@ text = "v2"
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/VBoxContainer"]
 margin_top = 544.0
 margin_right = 1920.0
-margin_bottom = 642.0
+margin_bottom = 804.0
 size_flags_vertical = 2
 theme = ExtResource( 3 )
 custom_constants/separation = 64
 
 [node name="StartButton" type="Button" parent="CanvasLayer/Control/VBoxContainer/VBoxContainer"]
-margin_left = 743.0
-margin_right = 1177.0
+margin_left = 851.0
+margin_right = 1068.0
 margin_bottom = 98.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme = ExtResource( 3 )
-text = "START GAME"
+text = " PLAY! "
 script = ExtResource( 12 )
+
+[node name="ExitGameButton" type="Button" parent="CanvasLayer/Control/VBoxContainer/VBoxContainer"]
+margin_left = 788.0
+margin_top = 162.0
+margin_right = 1131.0
+margin_bottom = 260.0
+size_flags_horizontal = 6
+text = " Exit game "
 
 [node name="DifficultyIndicator" type="TextureRect" parent="CanvasLayer/Control"]
 anchor_left = 1.0
@@ -252,13 +260,13 @@ DifficultyLabelPath = NodePath("../../../MarginContainer/HBoxContainer/RecordsDi
 Font = SubResource( 4 )
 
 [node name="CorruptedSavePanel" type="Panel" parent="CanvasLayer/Control"]
-anchor_left = 0.5
+anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -400.0
+margin_left = -850.0
 margin_top = -350.0
-margin_right = 400.0
+margin_right = -50.0
 margin_bottom = -50.0
 size_flags_horizontal = 4
 theme = ExtResource( 3 )
@@ -321,5 +329,6 @@ text = "Unlock"
 
 [connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/VBoxContainer/StartButton" to="Camera2D" method="TransitionToGame"]
 [connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/VBoxContainer/StartButton" to="CanvasLayer/Control/VBoxContainer/VBoxContainer/StartButton" method="OnPressed"]
+[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/VBoxContainer/ExitGameButton" to="CanvasLayer/Control/VBoxContainer/VBoxContainer/StartButton" method="ExitGamePressed"]
 [connection signal="OnDifficultyChanged" from="CanvasLayer/Control/DifficultyIndicator" to="CanvasLayer/Control/RecordsPanel/VBoxContainer3/ScrollContainer/MarginContainer/Leaderboards" method="UpdateLeaderboards"]
 [connection signal="pressed" from="CanvasLayer/Control/VBoxContainer2/ChangeDifficultyButton" to="CanvasLayer/Control/DifficultyIndicator" method="_on_DifficultyButton_pressed"]
