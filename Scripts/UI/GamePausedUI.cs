@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using MRalozerca2.Scripts;
 
 public class GamePausedUI : PopupPanel
 {
@@ -11,11 +12,6 @@ public class GamePausedUI : PopupPanel
     private void OnGameResumed()
     {
         this.Hide();
-    }
-
-    public void ExitGame()
-    {
-        GetTree().Quit();
     }
 
     public void TogglePause()

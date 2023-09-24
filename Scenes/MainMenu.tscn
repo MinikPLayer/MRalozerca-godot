@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Scenes/BgScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Fonts/ComicSans.ttf" type="DynamicFontData" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://Images/UI/Difficulty_normal.png" type="Texture" id=8]
 [ext_resource path="res://Images/UI/Difficulty_hard.png" type="Texture" id=9]
 [ext_resource path="res://Scripts/SceneTransition.cs" type="Script" id=10]
-[ext_resource path="res://Scenes/GameScene.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scripts/UI/Menu/StartButtonScript.cs" type="Script" id=12]
 [ext_resource path="res://Scripts/UI/Menu/LeaderboardsWidget.cs" type="Script" id=13]
 [ext_resource path="res://Scripts/UI/Menu/CorruptedSaveUnlocker.cs" type="Script" id=14]
@@ -61,7 +60,7 @@ current = true
 script = ExtResource( 10 )
 GameUiNodePath = NodePath("../CanvasLayer/MenuUI")
 CameraPath = NodePath(".")
-TargetScene = ExtResource( 11 )
+TargetSceneFile = "res://Scenes/GameScene.tscn"
 TransitionLogicNodePath = NodePath("TransitionLogic")
 
 [node name="TransitionLogic" type="Node2D" parent="Camera2D"]
@@ -333,7 +332,7 @@ custom_colors/font_color_pressed = Color( 1, 0.632813, 0, 1 )
 custom_fonts/font = SubResource( 7 )
 text = "Unlock"
 
-[connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" to="Camera2D" method="StartTransition" binds= [ false ]]
+[connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" to="Camera2D" method="StartTransition"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" to="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" method="OnPressed"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/ExitGameButton" to="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" method="ExitGamePressed"]
 [connection signal="OnDifficultyChanged" from="CanvasLayer/MenuUI/DifficultyIndicator" to="CanvasLayer/MenuUI/RecordsPanel/VBoxContainer3/ScrollContainer/MarginContainer/Leaderboards" method="UpdateLeaderboards"]

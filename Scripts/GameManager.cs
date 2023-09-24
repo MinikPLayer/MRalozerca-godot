@@ -82,7 +82,6 @@ public class GameManager : Node2D
     private void OnGameStartedEvent()
     {
         IsGameOver = false;
-        IsGamePaused = false;
         IsGameStarted = true;
         CurrentLives = this.GetDifficulty().StartLives;
         GameSpeedMultiplier = this.GetDifficulty().GameSpeedMultiplierStart;

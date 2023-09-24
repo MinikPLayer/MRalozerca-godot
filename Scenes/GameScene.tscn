@@ -22,7 +22,7 @@
 [ext_resource path="res://Scripts/SceneTransition.cs" type="Script" id=20]
 [ext_resource path="res://Themes/DefaultTheme.tres" type="Theme" id=21]
 [ext_resource path="res://Scripts/SceneTransitions/FadeAndMoveTransition.cs" type="Script" id=22]
-[ext_resource path="res://Scenes/MenuScene.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Scripts/UI/PauseButtonManager.cs" type="Script" id=23]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 83.5, 55.5 )
@@ -150,12 +150,12 @@ position = Vector2( 0, -540 )
 script = ExtResource( 20 )
 GameUiNodePath = NodePath("../CanvasLayer/GameUIScene")
 CameraPath = NodePath("Camera2D")
-TargetScene = ExtResource( 23 )
+TargetSceneFile = "res://Scenes/MainMenu.tscn"
 TransitionLogicNodePath = NodePath("TransitionLogic")
 StartGameAfterTransition = true
 TransitionCurvePower = 3.0
 
-[node name="Camera2D" type="Camera2D" parent="Node2D"]
+[node name="Camera2D" type="Camera2D" parent="Node2D" groups=["TransitionDisabled"]]
 position = Vector2( 0, -1000 )
 current = true
 script = ExtResource( 3 )
@@ -167,7 +167,6 @@ script = ExtResource( 22 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="GameUIScene" parent="CanvasLayer" instance=ExtResource( 5 )]
-visible = false
 
 [node name="Lives" parent="CanvasLayer/GameUIScene" index="2"]
 LiveScenePath = null
@@ -175,11 +174,7 @@ LiveScenePath = null
 [node name="ColorChangeButton" parent="CanvasLayer/GameUIScene" index="5"]
 MRalPath = NodePath("../../../MRal")
 
-[node name="GameOverUI" type="Node" parent="CanvasLayer"]
-script = ExtResource( 12 )
-GameOverUiScene = ExtResource( 11 )
-
-[node name="PauseMenu" type="PopupPanel" parent="CanvasLayer"]
+[node name="PauseMenu" type="PopupPanel" parent="CanvasLayer/GameUIScene"]
 visible = true
 self_modulate = Color( 0, 0, 0, 0.482353 )
 anchor_left = 0.5
@@ -190,13 +185,13 @@ margin_left = -960.0
 margin_top = -540.0
 margin_right = 960.0
 margin_bottom = 540.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = ExtResource( 21 )
 popup_exclusive = true
 script = ExtResource( 14 )
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/PauseMenu"]
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/GameUIScene/PauseMenu"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -207,7 +202,7 @@ margin_right = 956.0
 margin_bottom = 536.0
 theme = ExtResource( 21 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PauseMenu/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GameUIScene/PauseMenu/CenterContainer"]
 margin_left = 674.0
 margin_top = 297.0
 margin_right = 1237.0
@@ -218,7 +213,7 @@ size_flags_vertical = 4
 theme = ExtResource( 21 )
 custom_constants/separation = 32
 
-[node name="Label" type="Label" parent="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/GameUIScene/PauseMenu/CenterContainer/VBoxContainer"]
 margin_right = 563.0
 margin_bottom = 196.0
 size_flags_horizontal = 4
@@ -228,7 +223,7 @@ custom_fonts/font = SubResource( 21 )
 text = "PAUSED"
 align = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GameUIScene/PauseMenu/CenterContainer/VBoxContainer"]
 margin_top = 228.0
 margin_right = 563.0
 margin_bottom = 478.0
@@ -236,7 +231,7 @@ rect_min_size = Vector2( 0, 240 )
 theme = ExtResource( 21 )
 custom_constants/separation = 32
 
-[node name="ResumeButton" type="Button" parent="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="ResumeButton" type="Button" parent="CanvasLayer/GameUIScene/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer"]
 margin_left = 104.0
 margin_right = 458.0
 margin_bottom = 109.0
@@ -249,10 +244,10 @@ action_mode = 0
 enabled_focus_mode = 0
 text = " RESUME "
 
-[node name="ExitButton" type="Button" parent="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer"]
-margin_left = 163.0
+[node name="ExitButton" type="Button" parent="CanvasLayer/GameUIScene/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer"]
+margin_left = 146.0
 margin_top = 141.0
-margin_right = 400.0
+margin_right = 417.0
 margin_bottom = 250.0
 focus_mode = 0
 size_flags_horizontal = 4
@@ -261,7 +256,11 @@ theme = ExtResource( 21 )
 custom_fonts/font = SubResource( 20 )
 action_mode = 0
 enabled_focus_mode = 0
-text = " EXIT "
+text = " MENU "
+
+[node name="GameOverUI" type="Node" parent="CanvasLayer/GameUIScene"]
+script = ExtResource( 12 )
+GameOverUiScene = ExtResource( 11 )
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 self_modulate = Color( 1, 1, 1, 0.341176 )
@@ -275,6 +274,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = ExtResource( 21 )
 color = Color( 0.462745, 0.462745, 0.462745, 1 )
+script = ExtResource( 23 )
 
 [node name="PauseButton" type="ToolButton" parent="CanvasLayer/ColorRect"]
 anchor_left = 1.0
@@ -319,9 +319,10 @@ autoplay = true
 
 [connection signal="OnLivesChanged" from="." to="CanvasLayer/GameUIScene/Lives" method="OnLivesChanged"]
 [connection signal="InputChangedSignal" from="CanvasLayer/GameUIScene" to="MRal" method="SetExternalInput"]
-[connection signal="pressed" from="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer/ResumeButton" to="CanvasLayer/PauseMenu" method="TogglePause"]
-[connection signal="pressed" from="CanvasLayer/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer/ExitButton" to="CanvasLayer/PauseMenu" method="ExitGame"]
-[connection signal="pressed" from="CanvasLayer/ColorRect/PauseButton" to="CanvasLayer/PauseMenu" method="TogglePause"]
+[connection signal="pressed" from="CanvasLayer/GameUIScene/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer/ResumeButton" to="CanvasLayer/GameUIScene/PauseMenu" method="TogglePause"]
+[connection signal="pressed" from="CanvasLayer/GameUIScene/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer/ExitButton" to="Node2D" method="StartTransition"]
+[connection signal="pressed" from="CanvasLayer/GameUIScene/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer/ExitButton" to="CanvasLayer/GameUIScene/PauseMenu" method="OnGameResumed"]
+[connection signal="pressed" from="CanvasLayer/ColorRect/PauseButton" to="CanvasLayer/GameUIScene/PauseMenu" method="TogglePause"]
 [connection signal="area_entered" from="FishDestroyArea" to="FishDestroyArea" method="OnAreaEntered"]
 
 [editable path="CanvasLayer/GameUIScene"]

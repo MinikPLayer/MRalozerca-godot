@@ -25,13 +25,13 @@ namespace MRalozerca2.Scripts
         [Export] public NodePath GameUiNodePath;
         [Export] public NodePath CameraPath;
 
-        [Export] public PackedScene TargetScene;
+        // [Export] public PackedScene TargetScene;
+        [Export] public string TargetSceneFile;
         [Export] public NodePath TransitionLogicNodePath;
 
         [Export] public float Duration = 1.0f;
         [Export] public bool StartGameAfterTransition = false;
         [Export] public float TransitionCurvePower = 1.5f;
-
 
         private const string TransitionGroupName = "TransitionGroup";
 
@@ -43,7 +43,9 @@ namespace MRalozerca2.Scripts
 
         private DateTime _transitionStart = DateTime.MinValue;
 
-        public void StartTransition(bool receiver)
+        private bool _isReceiver;
+
+        private void SetupTransition()
         {
             _transitionLogic = GetNode<SceneTransitionLogic>(TransitionLogicNodePath);
             if(_transitionLogic == null)
@@ -51,22 +53,61 @@ namespace MRalozerca2.Scripts
 
             _transitionLogic.Camera = _cameraNode;
             _transitionLogic.GameUi = _gameUiNode;
+        }
+
+        private void SetTransitionDisabledNodesProcess(bool process)
+        {
+            var transitionDisabledNodes = GetTree().GetNodesInGroup("TransitionDisabled");
+            foreach(var node in transitionDisabledNodes)
+                (node as Node)?.SetProcess(process);
+        }
+
+        public void StartTransition()
+        {
+            SetupTransition();
+
             _transitionStart = DateTime.Now;
-            _transitionState = receiver ? TransitionStates.TransitionOut : TransitionStates.TransitionIn;
+            _transitionState = _isReceiver ? TransitionStates.TransitionOut : TransitionStates.TransitionIn;
             _transitionLogic.Start();
+
+            _transitionLogic.Update(_isReceiver ? 1.0f : 0.0f);
+
+            SetTransitionDisabledNodesProcess(false);
         }
 
         public override void _Ready()
         {
             base._Ready();
 
-            this.AddToGroup(TransitionGroupName);
-
-            if(TargetScene == null)
+            if(TargetSceneFile == null)
                 throw new Exception("Target scene is null!");
+
+            AddToGroup(TransitionGroupName);
 
             _gameUiNode = GetNode<Control>(GameUiNodePath);
             _cameraNode = GetNode<Node2D>(CameraPath);
+            if(_transitionState == TransitionStates.Idle && _isReceiver)
+                _gameUiNode.Hide();
+        }
+
+        private bool SetTransitionReceivers(Node n)
+        {
+            if (n is SceneTransition st)
+            {
+                st._isReceiver = true;
+                return true;
+            }
+
+            foreach (var c in n.GetChildren())
+            {
+                if (c is Node node)
+                {
+                    if (SetTransitionReceivers(node))
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         public override void _Process(float delta)
@@ -91,27 +132,35 @@ namespace MRalozerca2.Scripts
                 {
                     if (_transitionState == TransitionStates.TransitionIn)
                     {
-                        var newScene = TargetScene.Instance();
+                        var newScene = ResourceLoader.Load<PackedScene>(TargetSceneFile);
+                        if(newScene == null)
+                            throw new Exception($"Can't load scene: {TargetSceneFile}");
+
                         var root = GetTree().Root;
                         foreach(var c in root.GetChildren())
                             (c as Node2D)?.QueueFree();
 
-                        root.AddChild(newScene);
+                        var instance = newScene.Instance();
+                        SetTransitionReceivers(instance);
+                        root.AddChild(instance);
                         foreach (var node in GetTree().GetNodesInGroup(TransitionGroupName))
                         {
                             var sceneTransition = node as SceneTransition;
                             if (sceneTransition == null || sceneTransition == this) continue;
-                            sceneTransition.StartTransition(true);
+                            sceneTransition.StartTransition();
                         }
                     }
                     else
                     {
                         if(StartGameAfterTransition)
                             this.GetManager().EmitSignal(nameof(GameManager.OnGameStart));
+
+                        SetTransitionDisabledNodesProcess(true);
                     }
 
                     _transitionState = TransitionStates.Idle;
                     _transitionLogic.End();
+                    _isReceiver = false;
                 }
             }
         }

@@ -16,8 +16,6 @@ public class CameraManager : Camera2D
 
     private float _currentShake = 0.0f;
 
-    private bool _isGameStarted = false;
-
     private void FixCamera(Vector2 offset)
     {
         var viewport = GetViewport();
@@ -47,19 +45,10 @@ public class CameraManager : Camera2D
         base._Ready();
 
         this.GetManager().Connect(nameof(GameManager.OnFishCollected), this, nameof(OnFishCollected));
-        this.GetManager().Connect(nameof(GameManager.OnGameStart), this, nameof(OnGameStart));
-    }
-
-    private void OnGameStart()
-    {
-        _isGameStarted = true;
     }
 
     public override void _Process(float delta)
     {
-        if (!_isGameStarted)
-            return;
-
         var offset = new Vector2(
             (float)GD.RandRange(-_currentShake, _currentShake) * ShakeMultiplier,
             (float)GD.RandRange(-_currentShake, _currentShake) * ShakeMultiplier
