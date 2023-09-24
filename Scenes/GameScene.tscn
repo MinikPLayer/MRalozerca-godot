@@ -260,8 +260,10 @@ text = " MENU "
 
 [node name="GameOverPopup" type="Popup" parent="CanvasLayer/GameUIScene"]
 visible = true
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 script = ExtResource( 12 )
 
 [node name="Panel" type="Panel" parent="CanvasLayer/GameUIScene/GameOverPopup"]
@@ -269,15 +271,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 679.0
-margin_top = 351.0
-margin_right = 1201.0
-margin_bottom = 801.0
+margin_left = -250.0
+margin_top = -200.0
+margin_right = 250.0
+margin_bottom = 200.0
 theme = ExtResource( 21 )
 
 [node name="GameOverUI" parent="CanvasLayer/GameUIScene/GameOverPopup/Panel" instance=ExtResource( 11 )]
-margin_top = -175.0
-margin_bottom = 175.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
