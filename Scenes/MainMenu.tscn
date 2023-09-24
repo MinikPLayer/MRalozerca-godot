@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scenes/BgScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Fonts/ComicSans.ttf" type="DynamicFontData" id=2]
@@ -9,11 +9,12 @@
 [ext_resource path="res://Images/UI/Difficulty_hardcore.png" type="Texture" id=7]
 [ext_resource path="res://Images/UI/Difficulty_normal.png" type="Texture" id=8]
 [ext_resource path="res://Images/UI/Difficulty_hard.png" type="Texture" id=9]
-[ext_resource path="res://Scripts/UI/Menu/MenuTransition.cs" type="Script" id=10]
+[ext_resource path="res://Scripts/SceneTransition.cs" type="Script" id=10]
 [ext_resource path="res://Scenes/GameScene.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scripts/UI/Menu/StartButtonScript.cs" type="Script" id=12]
 [ext_resource path="res://Scripts/UI/Menu/LeaderboardsWidget.cs" type="Script" id=13]
 [ext_resource path="res://Scripts/UI/Menu/CorruptedSaveUnlocker.cs" type="Script" id=14]
+[ext_resource path="res://Scripts/SceneTransitions/FadeAndMoveTransition.cs" type="Script" id=15]
 
 [sub_resource type="DynamicFont" id=1]
 size = 240
@@ -58,22 +59,27 @@ font_data = ExtResource( 2 )
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 script = ExtResource( 10 )
-GameScene = ExtResource( 11 )
-GameUiNodePath = NodePath("../CanvasLayer/Control")
+GameUiNodePath = NodePath("../CanvasLayer/MenuUI")
+CameraPath = NodePath(".")
+TargetScene = ExtResource( 11 )
+TransitionLogicNodePath = NodePath("TransitionLogic")
+
+[node name="TransitionLogic" type="Node2D" parent="Camera2D"]
+script = ExtResource( 15 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="MenuUI" type="Control" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MenuUI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_vertical = 2
 theme = ExtResource( 3 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MenuUI/VBoxContainer"]
 margin_left = 640.0
 margin_top = 100.0
 margin_right = 1279.0
@@ -82,7 +88,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 6
 theme = ExtResource( 3 )
 
-[node name="MRalLabel" type="Label" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer"]
+[node name="MRalLabel" type="Label" parent="CanvasLayer/MenuUI/VBoxContainer/HBoxContainer"]
 margin_right = 552.0
 margin_bottom = 335.0
 size_flags_horizontal = 3
@@ -94,7 +100,7 @@ custom_constants/shadow_offset_y = 8
 custom_fonts/font = SubResource( 1 )
 text = "MRal"
 
-[node name="V2Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer"]
+[node name="V2Label" type="Label" parent="CanvasLayer/MenuUI/VBoxContainer/HBoxContainer"]
 margin_left = 560.0
 margin_right = 639.0
 margin_bottom = 101.0
@@ -107,7 +113,7 @@ custom_constants/shadow_offset_y = 4
 custom_fonts/font = SubResource( 2 )
 text = "v2"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MenuUI/VBoxContainer"]
 margin_top = 544.0
 margin_right = 1920.0
 margin_bottom = 804.0
@@ -115,7 +121,7 @@ size_flags_vertical = 2
 theme = ExtResource( 3 )
 custom_constants/separation = 64
 
-[node name="StartButton" type="Button" parent="CanvasLayer/Control/VBoxContainer/VBoxContainer"]
+[node name="StartButton" type="Button" parent="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer"]
 margin_left = 851.0
 margin_right = 1068.0
 margin_bottom = 98.0
@@ -125,7 +131,7 @@ theme = ExtResource( 3 )
 text = " PLAY! "
 script = ExtResource( 12 )
 
-[node name="ExitGameButton" type="Button" parent="CanvasLayer/Control/VBoxContainer/VBoxContainer"]
+[node name="ExitGameButton" type="Button" parent="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer"]
 margin_left = 788.0
 margin_top = 162.0
 margin_right = 1131.0
@@ -133,7 +139,7 @@ margin_bottom = 260.0
 size_flags_horizontal = 6
 text = " Exit game "
 
-[node name="DifficultyIndicator" type="TextureRect" parent="CanvasLayer/Control"]
+[node name="DifficultyIndicator" type="TextureRect" parent="CanvasLayer/MenuUI"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -500.0
@@ -146,7 +152,7 @@ script = ExtResource( 5 )
 Textures = [ ExtResource( 4 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 6 ), ExtResource( 7 ) ]
 DifficultyLabelPath = NodePath("../VBoxContainer2/DifficultyLevelName")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/MenuUI"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -410.0
@@ -156,7 +162,7 @@ rect_scale = Vector2( 0.5, 0.5 )
 size_flags_vertical = 3
 alignment = 1
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer2"]
+[node name="Label" type="Label" parent="CanvasLayer/MenuUI/VBoxContainer2"]
 margin_left = 122.0
 margin_right = 436.0
 margin_bottom = 90.0
@@ -167,7 +173,7 @@ text = "Difficulty:"
 align = 1
 valign = 1
 
-[node name="DifficultyLevelName" type="Label" parent="CanvasLayer/Control/VBoxContainer2"]
+[node name="DifficultyLevelName" type="Label" parent="CanvasLayer/MenuUI/VBoxContainer2"]
 margin_top = 94.0
 margin_right = 559.0
 margin_bottom = 235.0
@@ -180,7 +186,7 @@ custom_constants/shadow_offset_y = 8
 custom_fonts/font = SubResource( 3 )
 text = "UNKNOWN"
 
-[node name="ChangeDifficultyButton" type="Button" parent="CanvasLayer/Control/VBoxContainer2"]
+[node name="ChangeDifficultyButton" type="Button" parent="CanvasLayer/MenuUI/VBoxContainer2"]
 margin_left = 169.0
 margin_top = 239.0
 margin_right = 389.0
@@ -190,7 +196,7 @@ size_flags_vertical = 10
 theme = ExtResource( 3 )
 text = "Change"
 
-[node name="RecordsPanel" type="Panel" parent="CanvasLayer/Control"]
+[node name="RecordsPanel" type="Panel" parent="CanvasLayer/MenuUI"]
 anchor_bottom = 1.0
 margin_left = 150.0
 margin_top = 150.0
@@ -200,24 +206,24 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 3 )
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasLayer/Control/RecordsPanel"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasLayer/MenuUI/RecordsPanel"]
 anchor_bottom = 1.0
 margin_right = 350.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/RecordsPanel/VBoxContainer3"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MenuUI/RecordsPanel/VBoxContainer3"]
 margin_right = 350.0
 margin_bottom = 51.0
 custom_constants/margin_right = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/RecordsPanel/VBoxContainer3/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MenuUI/RecordsPanel/VBoxContainer3/MarginContainer"]
 margin_right = 335.0
 margin_bottom = 51.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/RecordsPanel/VBoxContainer3/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/MenuUI/RecordsPanel/VBoxContainer3/MarginContainer/HBoxContainer"]
 margin_right = 137.0
 margin_bottom = 51.0
 size_flags_horizontal = 0
@@ -225,7 +231,7 @@ theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 5 )
 text = "Records"
 
-[node name="RecordsDifficultyLabel" type="Label" parent="CanvasLayer/Control/RecordsPanel/VBoxContainer3/MarginContainer/HBoxContainer"]
+[node name="RecordsDifficultyLabel" type="Label" parent="CanvasLayer/MenuUI/RecordsPanel/VBoxContainer3/MarginContainer/HBoxContainer"]
 margin_left = 186.0
 margin_top = 2.0
 margin_right = 335.0
@@ -235,7 +241,7 @@ theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 9 )
 text = "Very hard"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/RecordsPanel/VBoxContainer3"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MenuUI/RecordsPanel/VBoxContainer3"]
 margin_top = 59.0
 margin_right = 350.0
 margin_bottom = 730.0
@@ -243,13 +249,13 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/RecordsPanel/VBoxContainer3/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MenuUI/RecordsPanel/VBoxContainer3/ScrollContainer"]
 margin_right = 350.0
 size_flags_horizontal = 3
 custom_constants/margin_right = 30
 custom_constants/margin_left = 15
 
-[node name="Leaderboards" type="VBoxContainer" parent="CanvasLayer/Control/RecordsPanel/VBoxContainer3/ScrollContainer/MarginContainer"]
+[node name="Leaderboards" type="VBoxContainer" parent="CanvasLayer/MenuUI/RecordsPanel/VBoxContainer3/ScrollContainer/MarginContainer"]
 margin_left = 15.0
 margin_right = 320.0
 size_flags_horizontal = 3
@@ -259,7 +265,7 @@ script = ExtResource( 13 )
 DifficultyLabelPath = NodePath("../../../MarginContainer/HBoxContainer/RecordsDifficultyLabel")
 Font = SubResource( 4 )
 
-[node name="CorruptedSavePanel" type="Panel" parent="CanvasLayer/Control"]
+[node name="CorruptedSavePanel" type="Panel" parent="CanvasLayer/MenuUI"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -275,7 +281,7 @@ HideButtonPath = NodePath("CorruptedSaveContainer/HBoxContainer/CorruptedSaveHid
 UnlockButtonPath = NodePath("CorruptedSaveContainer/HBoxContainer/CorruptedSaveButton")
 UnlockLabelPath = NodePath("CorruptedSaveContainer/CorruptedSaveLabel")
 
-[node name="CorruptedSaveContainer" type="VBoxContainer" parent="CanvasLayer/Control/CorruptedSavePanel"]
+[node name="CorruptedSaveContainer" type="VBoxContainer" parent="CanvasLayer/MenuUI/CorruptedSavePanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 25.0
@@ -284,7 +290,7 @@ margin_right = -25.0
 margin_bottom = -25.0
 size_flags_horizontal = 4
 
-[node name="CorruptedSaveLabel" type="Label" parent="CanvasLayer/Control/CorruptedSavePanel/CorruptedSaveContainer"]
+[node name="CorruptedSaveLabel" type="Label" parent="CanvasLayer/MenuUI/CorruptedSavePanel/CorruptedSaveContainer"]
 margin_right = 750.0
 margin_bottom = 117.0
 theme = ExtResource( 3 )
@@ -297,13 +303,13 @@ text = "Save file corrupted!
 Writing is locked to avoid losing data."
 align = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/CorruptedSavePanel/CorruptedSaveContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MenuUI/CorruptedSavePanel/CorruptedSaveContainer"]
 margin_top = 175.0
 margin_right = 750.0
 margin_bottom = 250.0
 size_flags_vertical = 10
 
-[node name="CorruptedSaveHideButton" type="Button" parent="CanvasLayer/Control/CorruptedSavePanel/CorruptedSaveContainer/HBoxContainer"]
+[node name="CorruptedSaveHideButton" type="Button" parent="CanvasLayer/MenuUI/CorruptedSavePanel/CorruptedSaveContainer/HBoxContainer"]
 margin_left = 129.0
 margin_right = 241.0
 margin_bottom = 75.0
@@ -313,7 +319,7 @@ theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 8 )
 text = "Hide"
 
-[node name="CorruptedSaveButton" type="Button" parent="CanvasLayer/Control/CorruptedSavePanel/CorruptedSaveContainer/HBoxContainer"]
+[node name="CorruptedSaveButton" type="Button" parent="CanvasLayer/MenuUI/CorruptedSavePanel/CorruptedSaveContainer/HBoxContainer"]
 margin_left = 486.0
 margin_right = 643.0
 margin_bottom = 75.0
@@ -327,8 +333,8 @@ custom_colors/font_color_pressed = Color( 1, 0.632813, 0, 1 )
 custom_fonts/font = SubResource( 7 )
 text = "Unlock"
 
-[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/VBoxContainer/StartButton" to="Camera2D" method="TransitionToGame"]
-[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/VBoxContainer/StartButton" to="CanvasLayer/Control/VBoxContainer/VBoxContainer/StartButton" method="OnPressed"]
-[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/VBoxContainer/ExitGameButton" to="CanvasLayer/Control/VBoxContainer/VBoxContainer/StartButton" method="ExitGamePressed"]
-[connection signal="OnDifficultyChanged" from="CanvasLayer/Control/DifficultyIndicator" to="CanvasLayer/Control/RecordsPanel/VBoxContainer3/ScrollContainer/MarginContainer/Leaderboards" method="UpdateLeaderboards"]
-[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer2/ChangeDifficultyButton" to="CanvasLayer/Control/DifficultyIndicator" method="_on_DifficultyButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" to="Camera2D" method="StartTransition" binds= [ false ]]
+[connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" to="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" method="OnPressed"]
+[connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/ExitGameButton" to="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" method="ExitGamePressed"]
+[connection signal="OnDifficultyChanged" from="CanvasLayer/MenuUI/DifficultyIndicator" to="CanvasLayer/MenuUI/RecordsPanel/VBoxContainer3/ScrollContainer/MarginContainer/Leaderboards" method="UpdateLeaderboards"]
+[connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer2/ChangeDifficultyButton" to="CanvasLayer/MenuUI/DifficultyIndicator" method="_on_DifficultyButton_pressed"]
