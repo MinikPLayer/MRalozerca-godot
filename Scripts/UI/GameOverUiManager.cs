@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class GameOverUiManager : Node
+public class GameOverUiManager : Popup
 {
     [Export] public PackedScene GameOverUiScene;
 
@@ -15,13 +15,11 @@ public class GameOverUiManager : Node
 
     private void OnGameOver()
     {
-        var gameOverUi = GameOverUiScene.Instance();
-        AddChild(gameOverUi);
+        this.Show();
     }
 
     private void OnGameStart()
     {
-        foreach(var c in GetChildren())
-            (c as Node)?.QueueFree();
+        this.Hide();
     }
 }

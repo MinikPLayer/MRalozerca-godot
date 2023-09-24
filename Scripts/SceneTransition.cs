@@ -62,6 +62,21 @@ namespace MRalozerca2.Scripts
                 (node as Node)?.SetProcess(process);
         }
 
+        private void SetTransitionHiddenNodes(bool show)
+        {
+            var transitionHiddenNodes = GetTree().GetNodesInGroup("TransitionHidden");
+            foreach (var node in transitionHiddenNodes)
+            {
+                if (!(node is Control c))
+                    continue;
+
+                if (show)
+                    c.Show();
+                else
+                    c.Hide();
+            }
+        }
+
         public void StartTransition()
         {
             SetupTransition();
@@ -73,6 +88,7 @@ namespace MRalozerca2.Scripts
             _transitionLogic.Update(_isReceiver ? 1.0f : 0.0f);
 
             SetTransitionDisabledNodesProcess(false);
+            SetTransitionHiddenNodes(false);
         }
 
         public override void _Ready()
@@ -156,6 +172,7 @@ namespace MRalozerca2.Scripts
                             this.GetManager().EmitSignal(nameof(GameManager.OnGameStart));
 
                         SetTransitionDisabledNodesProcess(true);
+                        SetTransitionHiddenNodes(true);
                     }
 
                     _transitionState = TransitionStates.Idle;

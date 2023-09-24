@@ -62,6 +62,7 @@ GameUiNodePath = NodePath("../CanvasLayer/MenuUI")
 CameraPath = NodePath(".")
 TargetSceneFile = "res://Scenes/GameScene.tscn"
 TransitionLogicNodePath = NodePath("TransitionLogic")
+TransitionCurvePower = 3.0
 
 [node name="TransitionLogic" type="Node2D" parent="Camera2D"]
 script = ExtResource( 15 )

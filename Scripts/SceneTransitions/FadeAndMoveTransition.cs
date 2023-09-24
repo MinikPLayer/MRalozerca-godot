@@ -4,7 +4,7 @@ namespace MRalozerca2.Scripts.SceneTransitions
 {
     public class FadeAndMoveTransition : SceneTransitionLogic
     {
-        [Export] public float TargetHeight = 2000;
+        [Export] public float TargetHeight = 1200;
 
         public override void Update(float percentage)
         {

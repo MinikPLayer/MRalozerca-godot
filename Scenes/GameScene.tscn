@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Scenes/BgScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Images/MRal.png" type="Texture" id=2]
@@ -22,7 +22,6 @@
 [ext_resource path="res://Scripts/SceneTransition.cs" type="Script" id=20]
 [ext_resource path="res://Themes/DefaultTheme.tres" type="Theme" id=21]
 [ext_resource path="res://Scripts/SceneTransitions/FadeAndMoveTransition.cs" type="Script" id=22]
-[ext_resource path="res://Scripts/UI/PauseButtonManager.cs" type="Script" id=23]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 83.5, 55.5 )
@@ -131,6 +130,7 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="MRal"]
 frames = SubResource( 4 )
 animation = "idle"
+frame = 1
 playing = true
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="MRal/AnimatedSprite"]
@@ -138,6 +138,7 @@ modulate = Color( 1, 0, 0, 1 )
 z_index = 1
 frames = SubResource( 16 )
 animation = "idle"
+frame = 1
 playing = true
 
 [node name="FishCollectedAudioPlayer" type="AudioStreamPlayer2D" parent="MRal"]
@@ -175,7 +176,6 @@ LiveScenePath = null
 MRalPath = NodePath("../../../MRal")
 
 [node name="PauseMenu" type="PopupPanel" parent="CanvasLayer/GameUIScene"]
-visible = true
 self_modulate = Color( 0, 0, 0, 0.482353 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -258,11 +258,38 @@ action_mode = 0
 enabled_focus_mode = 0
 text = " MENU "
 
-[node name="GameOverUI" type="Node" parent="CanvasLayer/GameUIScene"]
+[node name="GameOverPopup" type="Popup" parent="CanvasLayer/GameUIScene"]
+visible = true
+margin_right = 40.0
+margin_bottom = 40.0
 script = ExtResource( 12 )
-GameOverUiScene = ExtResource( 11 )
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="Panel" type="Panel" parent="CanvasLayer/GameUIScene/GameOverPopup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 679.0
+margin_top = 351.0
+margin_right = 1201.0
+margin_bottom = 801.0
+theme = ExtResource( 21 )
+
+[node name="GameOverUI" parent="CanvasLayer/GameUIScene/GameOverPopup/Panel" instance=ExtResource( 11 )]
+margin_top = -175.0
+margin_bottom = 175.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" parent="CanvasLayer/GameUIScene/GameOverPopup/Panel/GameOverUI" index="0"]
+margin_top = 14.0
+margin_bottom = 115.0
+
+[node name="Button" parent="CanvasLayer/GameUIScene/GameOverPopup/Panel/GameOverUI" index="1"]
+margin_top = 164.0
+margin_bottom = 239.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" groups=["TransitionHidden"]]
 self_modulate = Color( 1, 1, 1, 0.341176 )
 anchor_left = 1.0
 anchor_right = 1.0
@@ -274,7 +301,6 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = ExtResource( 21 )
 color = Color( 0.462745, 0.462745, 0.462745, 1 )
-script = ExtResource( 23 )
 
 [node name="PauseButton" type="ToolButton" parent="CanvasLayer/ColorRect"]
 anchor_left = 1.0
@@ -322,9 +348,12 @@ autoplay = true
 [connection signal="pressed" from="CanvasLayer/GameUIScene/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer/ResumeButton" to="CanvasLayer/GameUIScene/PauseMenu" method="TogglePause"]
 [connection signal="pressed" from="CanvasLayer/GameUIScene/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer/ExitButton" to="Node2D" method="StartTransition"]
 [connection signal="pressed" from="CanvasLayer/GameUIScene/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer/ExitButton" to="CanvasLayer/GameUIScene/PauseMenu" method="OnGameResumed"]
+[connection signal="pressed" from="CanvasLayer/GameUIScene/GameOverPopup/Panel/GameOverUI/Button2" to="Node2D" method="StartTransition"]
+[connection signal="pressed" from="CanvasLayer/GameUIScene/GameOverPopup/Panel/GameOverUI/Button2" to="CanvasLayer/GameUIScene/GameOverPopup" method="OnGameStart"]
 [connection signal="pressed" from="CanvasLayer/ColorRect/PauseButton" to="CanvasLayer/GameUIScene/PauseMenu" method="TogglePause"]
 [connection signal="area_entered" from="FishDestroyArea" to="FishDestroyArea" method="OnAreaEntered"]
 
 [editable path="CanvasLayer/GameUIScene"]
 [editable path="CanvasLayer/GameUIScene/LeftButton"]
 [editable path="CanvasLayer/GameUIScene/RightButton"]
+[editable path="CanvasLayer/GameUIScene/GameOverPopup/Panel/GameOverUI"]
