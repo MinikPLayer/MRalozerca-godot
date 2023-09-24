@@ -32,6 +32,11 @@ public class ChangeColorButton : TouchScreenButton
         _mral = GetNode<MRal>(MRalPath);
     }
 
+    public void SetColor(Color color)
+    {
+        _currentColor = color;
+    }
+
     public void OnColorChange()
     {
         GD.Print("Color changed!");

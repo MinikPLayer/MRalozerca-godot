@@ -344,6 +344,7 @@ stream = ExtResource( 13 )
 autoplay = true
 
 [connection signal="OnLivesChanged" from="." to="CanvasLayer/GameUIScene/Lives" method="OnLivesChanged"]
+[connection signal="OnColorChange" from="MRal" to="CanvasLayer/GameUIScene/ColorChangeButton" method="SetColor"]
 [connection signal="InputChangedSignal" from="CanvasLayer/GameUIScene" to="MRal" method="SetExternalInput"]
 [connection signal="pressed" from="CanvasLayer/GameUIScene/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer/ResumeButton" to="CanvasLayer/GameUIScene/PauseMenu" method="TogglePause"]
 [connection signal="pressed" from="CanvasLayer/GameUIScene/PauseMenu/CenterContainer/VBoxContainer/VBoxContainer/ExitButton" to="Node2D" method="StartTransition"]

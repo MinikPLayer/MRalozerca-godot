@@ -4,12 +4,12 @@ using MRalozerca2.Scripts;
 
 public class MRal : Area2D
 {
+    [Signal]
+    public delegate void OnColorChange(Color color);
+
     [Export] public float MoveSpeed = 1000;
-
     [Export] public float HorizontalPlayArea = 1920f / 2f;
-
     [Export] public NodePath FishCollectedPlayerPath;
-
     [Export] public PackedScene DeathParticlesScene;
 
     private AnimatedSprite _sprite;
@@ -44,6 +44,8 @@ public class MRal : Area2D
 
         this.GetManager().Connect(nameof(GameManager.OnGameOver), this, nameof(OnGameOver));
         this.GetManager().Connect(nameof(GameManager.OnGameStart), this, nameof(OnGameStart));
+
+        EmitSignal(nameof(OnColorChange), _currentColor.ToColor());
     }
 
     void CheckCollisions()
@@ -114,12 +116,14 @@ public class MRal : Area2D
     public GameColors NextColor()
     {
         _currentColor = _currentColor.NextColor();
+        EmitSignal(nameof(OnColorChange), _currentColor.ToColor());
         return _currentColor;
     }
 
     public GameColors PreviousColor()
     {
         _currentColor = _currentColor.PreviousColor();
+        EmitSignal(nameof(OnColorChange), _currentColor.ToColor());
         return _currentColor;
     }
 
