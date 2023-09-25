@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Scenes/BgScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Fonts/ComicSans.ttf" type="DynamicFontData" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Images/UI/Difficulty_normal.png" type="Texture" id=8]
 [ext_resource path="res://Images/UI/Difficulty_hard.png" type="Texture" id=9]
 [ext_resource path="res://Scripts/SceneTransition.cs" type="Script" id=10]
+[ext_resource path="res://Images/Tutorial/controls.png" type="Texture" id=11]
 [ext_resource path="res://Scripts/UI/Menu/StartButtonScript.cs" type="Script" id=12]
 [ext_resource path="res://Scripts/UI/Menu/LeaderboardsWidget.cs" type="Script" id=13]
 [ext_resource path="res://Scripts/UI/Menu/CorruptedSaveUnlocker.cs" type="Script" id=14]
@@ -51,9 +52,29 @@ font_data = ExtResource( 2 )
 size = 48
 font_data = ExtResource( 2 )
 
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0, 0, 0, 0.615686 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+expand_margin_left = 16.0
+expand_margin_right = 4.0
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+shadow_color = Color( 0, 0, 0, 0.47451 )
+shadow_size = 4
+shadow_offset = Vector2( 4, 4 )
+
 [node name="MainMenu" type="Node2D"]
 
 [node name="BgScene" parent="." instance=ExtResource( 1 )]
+position = Vector2( 12, -8 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
@@ -116,7 +137,7 @@ text = "v2"
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MenuUI/VBoxContainer"]
 margin_top = 544.0
 margin_right = 1920.0
-margin_bottom = 804.0
+margin_bottom = 966.0
 size_flags_vertical = 2
 theme = ExtResource( 3 )
 custom_constants/separation = 64
@@ -131,11 +152,19 @@ theme = ExtResource( 3 )
 text = " PLAY! "
 script = ExtResource( 12 )
 
+[node name="TutorialButton" type="Button" parent="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer"]
+margin_left = 835.0
+margin_top = 162.0
+margin_right = 1084.0
+margin_bottom = 260.0
+size_flags_horizontal = 4
+text = "Tutorial"
+
 [node name="ExitGameButton" type="Button" parent="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer"]
 margin_left = 788.0
-margin_top = 162.0
+margin_top = 324.0
 margin_right = 1131.0
-margin_bottom = 260.0
+margin_bottom = 422.0
 size_flags_horizontal = 6
 text = " Exit game "
 
@@ -333,8 +362,84 @@ custom_colors/font_color_pressed = Color( 1, 0.632813, 0, 1 )
 custom_fonts/font = SubResource( 7 )
 text = "Unlock"
 
+[node name="TutorialPopup" type="Popup" parent="CanvasLayer/MenuUI"]
+visible = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 50.0
+margin_right = -50.0
+margin_bottom = -50.0
+
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer/MenuUI/TutorialPopup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 3 )
+custom_constants/label_valign_fg = 0
+custom_constants/hseparation = 128
+custom_constants/label_valign_bg = 0
+custom_constants/top_margin = 0
+custom_styles/panel = SubResource( 10 )
+
+[node name="How to play\?" type="Tabs" parent="CanvasLayer/MenuUI/TutorialPopup/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 102.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MenuUI/TutorialPopup/TabContainer/How to play\?"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="CanvasLayer/MenuUI/TutorialPopup/TabContainer/How to play\?/VBoxContainer"]
+margin_right = 1812.0
+margin_bottom = 741.0
+text = "* Collect as many fishes as you can
+* Change your color to the same as the fish you're trying to collect
+* With every fish collected  your combo score increases and the game speeds up
+* With every lost fish game slows down and you lose a life
+* Don't lose all of your lifes!
+* And the most important thing - Have fun :3"
+autowrap = true
+
+[node name="Controls" type="Tabs" parent="CanvasLayer/MenuUI/TutorialPopup/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 102.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MenuUI/TutorialPopup/TabContainer/Controls"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -721.0
+margin_top = -431.0
+margin_right = 1197.0
+margin_bottom = 584.0
+rect_scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 11 )
+
+[node name="CloseTutorialButton" type="Button" parent="CanvasLayer/MenuUI/TutorialPopup"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -82.5
+margin_top = -120.0
+margin_right = 82.5
+margin_bottom = -200.0
+theme = ExtResource( 3 )
+text = "Close"
+
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" to="Camera2D" method="StartTransition"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" to="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" method="OnPressed"]
+[connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/TutorialButton" to="CanvasLayer/MenuUI/TutorialPopup" method="show"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/ExitGameButton" to="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" method="ExitGamePressed"]
 [connection signal="OnDifficultyChanged" from="CanvasLayer/MenuUI/DifficultyIndicator" to="CanvasLayer/MenuUI/RecordsPanel/VBoxContainer3/ScrollContainer/MarginContainer/Leaderboards" method="UpdateLeaderboards"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer2/ChangeDifficultyButton" to="CanvasLayer/MenuUI/DifficultyIndicator" method="_on_DifficultyButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/MenuUI/TutorialPopup/CloseTutorialButton" to="CanvasLayer/MenuUI/TutorialPopup" method="hide"]
