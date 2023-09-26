@@ -142,7 +142,7 @@ size_flags_vertical = 2
 theme = ExtResource( 3 )
 custom_constants/separation = 64
 
-[node name="StartButton" type="Button" parent="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer"]
+[node name="StartButton" type="Button" parent="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer" groups=["TransitionDisabled"]]
 margin_left = 851.0
 margin_right = 1068.0
 margin_bottom = 98.0
@@ -152,7 +152,7 @@ theme = ExtResource( 3 )
 text = " PLAY! "
 script = ExtResource( 12 )
 
-[node name="TutorialButton" type="Button" parent="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer"]
+[node name="TutorialButton" type="Button" parent="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer" groups=["TransitionDisabled"]]
 margin_left = 835.0
 margin_top = 162.0
 margin_right = 1084.0
@@ -160,7 +160,7 @@ margin_bottom = 260.0
 size_flags_horizontal = 4
 text = "Tutorial"
 
-[node name="ExitGameButton" type="Button" parent="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer"]
+[node name="ExitGameButton" type="Button" parent="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer" groups=["TransitionDisabled"]]
 margin_left = 788.0
 margin_top = 324.0
 margin_right = 1131.0

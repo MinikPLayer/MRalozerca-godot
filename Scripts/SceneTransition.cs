@@ -58,8 +58,12 @@ namespace MRalozerca2.Scripts
         private void SetTransitionDisabledNodesProcess(bool process)
         {
             var transitionDisabledNodes = GetTree().GetNodesInGroup("TransitionDisabled");
-            foreach(var node in transitionDisabledNodes)
+            foreach (var node in transitionDisabledNodes)
+            {
                 (node as Node)?.SetProcess(process);
+                if (node is Button b)
+                    b.Disabled = !process;
+            }
         }
 
         private void SetTransitionHiddenNodes(bool show)

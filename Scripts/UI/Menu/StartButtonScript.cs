@@ -27,6 +27,6 @@ public class StartButtonScript : Button
     public void OnPressed()
     {
         // Disable all buttons in current scene
-        Disable(GetTree().Root);
+        // Disable(GetTree().Root);
     }
 }
