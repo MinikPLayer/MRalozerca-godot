@@ -9,6 +9,8 @@ public class Fish : Area2D
 
     [Export] public NodePath InsideSpritePath;
 
+    [Export] public PackedScene FishDestroyedParticles;
+
     public bool IsCollected = false;
 
     public FishSpawner Spawner;
@@ -16,6 +18,8 @@ public class Fish : Area2D
 
     private float _currentSpeed = 0.0f;
     private Sprite _insideSprite;
+
+    public MRal CollidedMRal = null;
 
     public override void _Ready()
     {
@@ -49,10 +53,47 @@ public class Fish : Area2D
         _insideSprite.Modulate = Color.ToColor();
     }
 
+    private void SpawnParticles(float rightDirection)
+    {
+        var angle = GetChild<Node2D>(0).Rotation;
+
+        var dirAngle = -angle - (rightDirection * Mathf.Pi / 2f);
+        var y = Mathf.Cos(dirAngle);
+        var x = -Mathf.Sin(dirAngle);
+
+        var particles = (ParticlesManager)FishDestroyedParticles.Instance();
+
+        particles.GlobalPosition = GlobalPosition;
+        particles.GlobalRotation = angle;
+        particles.OneShot = true;
+        if(!(particles.ProcessMaterial is ParticlesMaterial pm))
+            throw new InvalidCastException("ParticlesMaterial is not ParticlesMaterial!");
+
+        pm.Direction = new Vector3(x, y, 0.0f);
+        pm.InitialVelocity = _currentSpeed;
+        pm.Spread = rightDirection == 0 ? 15f : 90f;
+
+        particles.Emitting = true;
+        GetTree().Root.AddChild(particles);
+    }
+
     private void OnFishCollected(Fish f, bool collected)
     {
-        if(f == this)
+        if (f == this)
+        {
+            var move = 0f;
+            if (collected && CollidedMRal != null)
+            {
+                var globalMove = CollidedMRal.CalculateGlobalMove(CollidedMRal.CurrentMove);
+                var newMove = new Vector2(globalMove, _currentSpeed);
+                var angle = newMove.Angle();
+                move = Mathf.Cos(angle);
+            }
+
+            SpawnParticles(move);
+
             Destroy();
+        }
     }
 
     private void Destroy()

@@ -20,12 +20,17 @@ public class MRal : Area2D
     public const int MaxColors = 3;
     private GameColors _currentColor = 0;
 
-    private float _currentMove = 0;
+    public float CurrentMove { get; private set; } = 0;
 
     private float _externalInput = 0;
     private void SetExternalInput(float input)
     {
         _externalInput = input;
+    }
+
+    public float CalculateGlobalMove(float normalizedMove)
+    {
+        return normalizedMove * MoveSpeed * this.GetManager().GameSpeedMultiplier;
     }
 
     // Called when the node enters the scene tree for the first time.
@@ -41,7 +46,6 @@ public class MRal : Area2D
         _collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
 
         _fishCollectedPlayer = GetNode<AudioStreamPlayer2D>(FishCollectedPlayerPath);
-
         this.GetManager().Connect(nameof(GameManager.OnGameOver), this, nameof(OnGameOver));
         this.GetManager().Connect(nameof(GameManager.OnGameStart), this, nameof(OnGameStart));
 
@@ -54,6 +58,7 @@ public class MRal : Area2D
         foreach (var body in bodies)
         {
             if (!(body is Fish fish) || fish.Color != _currentColor) continue;
+            fish.CollidedMRal = this;
             this.GetManager().EmitSignal(nameof(GameManager.OnFishCollected), fish, true);
             _fishCollectedPlayer.Play();
         }
@@ -75,7 +80,7 @@ public class MRal : Area2D
         if(newMaterial == null)
             throw new NullReferenceException("New particles material is null!");
 
-        newMaterial.InitialVelocity = MoveSpeed * 10f * this.GetManager().GameSpeedMultiplier;
+        newMaterial.InitialVelocity = CalculateGlobalMove(CurrentMove) * 10f; // MoveSpeed * 10f * this.GetManager().GameSpeedMultiplier;
 
         if (this._sprite.Scale.x < 0)
         {
@@ -89,7 +94,7 @@ public class MRal : Area2D
             deathParticles.Position = new Vector2(position.x + shape.Extents.x * 2f, position.y);
         }
 
-        if (_currentMove == 0)
+        if (CurrentMove == 0)
         {
             newMaterial.Direction = new Vector3(0, 0, 0);
             newMaterial.Spread = 360f;
@@ -97,7 +102,7 @@ public class MRal : Area2D
         }
         else
         {
-            newMaterial.Direction = new Vector3(Math.Abs(_currentMove), 0, 0);
+            newMaterial.Direction = new Vector3(Math.Abs(CurrentMove), 0, 0);
         }
 
         deathParticles.ProcessMaterial = newMaterial;
@@ -144,9 +149,10 @@ public class MRal : Area2D
 
         var lastPos = GlobalPosition;
         horizontal = Mathf.Clamp(horizontal, -1, 1);
-        MoveLocalX(horizontal * delta * MoveSpeed * manager.GameSpeedMultiplier);
+        // MoveLocalX(horizontal * delta * MoveSpeed * manager.GameSpeedMultiplier);
+        MoveLocalX(CalculateGlobalMove(horizontal * delta));
 
-        _currentMove = horizontal;
+        CurrentMove = horizontal;
 
         var scale = _sprite.Scale;
         if (horizontal > 0)
