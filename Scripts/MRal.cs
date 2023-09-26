@@ -80,7 +80,7 @@ public class MRal : Area2D
         if(newMaterial == null)
             throw new NullReferenceException("New particles material is null!");
 
-        newMaterial.InitialVelocity = CalculateGlobalMove(CurrentMove) * 10f; // MoveSpeed * 10f * this.GetManager().GameSpeedMultiplier;
+        newMaterial.InitialVelocity = Math.Abs(CalculateGlobalMove(CurrentMove)) * 10f; // MoveSpeed * 10f * this.GetManager().GameSpeedMultiplier;
 
         if (this._sprite.Scale.x < 0)
         {
