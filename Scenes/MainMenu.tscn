@@ -138,7 +138,7 @@ text = "v2"
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MenuUI/VBoxContainer"]
 margin_top = 544.0
 margin_right = 1920.0
-margin_bottom = 804.0
+margin_bottom = 966.0
 size_flags_vertical = 2
 theme = ExtResource( 3 )
 custom_constants/separation = 64
@@ -162,7 +162,6 @@ size_flags_horizontal = 4
 text = "Tutorial"
 
 [node name="ExitGameButton" type="Button" parent="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer" groups=["TransitionDisabled"]]
-visible = false
 margin_left = 788.0
 margin_top = 324.0
 margin_right = 1131.0
@@ -443,5 +442,6 @@ text = "Close"
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" to="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" method="OnPressed"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/TutorialButton" to="CanvasLayer/MenuUI/TutorialPopup" method="show"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/ExitGameButton" to="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/ExitGameButton" method="_on_ExitGameButton_pressed"]
+[connection signal="OnDifficultyChanged" from="CanvasLayer/MenuUI/DifficultyIndicator" to="CanvasLayer/MenuUI/RecordsPanel/VBoxContainer3/ScrollContainer/MarginContainer/Leaderboards" method="UpdateLeaderboards"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer2/ChangeDifficultyButton" to="CanvasLayer/MenuUI/DifficultyIndicator" method="_on_DifficultyButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/TutorialPopup/CloseTutorialButton" to="CanvasLayer/MenuUI/TutorialPopup" method="hide"]
