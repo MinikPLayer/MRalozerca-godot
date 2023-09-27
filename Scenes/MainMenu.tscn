@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scenes/BgScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Fonts/ComicSans.ttf" type="DynamicFontData" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Scripts/UI/Menu/LeaderboardsWidget.cs" type="Script" id=13]
 [ext_resource path="res://Scripts/UI/Menu/CorruptedSaveUnlocker.cs" type="Script" id=14]
 [ext_resource path="res://Scripts/SceneTransitions/FadeAndMoveTransition.cs" type="Script" id=15]
+[ext_resource path="res://Scripts/UI/Menu/exit_button.gd" type="Script" id=16]
 
 [sub_resource type="DynamicFont" id=1]
 size = 240
@@ -167,6 +168,7 @@ margin_right = 1131.0
 margin_bottom = 422.0
 size_flags_horizontal = 6
 text = " Exit game "
+script = ExtResource( 16 )
 
 [node name="DifficultyIndicator" type="TextureRect" parent="CanvasLayer/MenuUI"]
 anchor_left = 1.0
@@ -439,7 +441,6 @@ text = "Close"
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" to="Camera2D" method="StartTransition"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" to="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" method="OnPressed"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/TutorialButton" to="CanvasLayer/MenuUI/TutorialPopup" method="show"]
-[connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/ExitGameButton" to="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/StartButton" method="ExitGamePressed"]
-[connection signal="OnDifficultyChanged" from="CanvasLayer/MenuUI/DifficultyIndicator" to="CanvasLayer/MenuUI/RecordsPanel/VBoxContainer3/ScrollContainer/MarginContainer/Leaderboards" method="UpdateLeaderboards"]
+[connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/ExitGameButton" to="CanvasLayer/MenuUI/VBoxContainer/VBoxContainer/ExitGameButton" method="_on_ExitGameButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/VBoxContainer2/ChangeDifficultyButton" to="CanvasLayer/MenuUI/DifficultyIndicator" method="_on_DifficultyButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/MenuUI/TutorialPopup/CloseTutorialButton" to="CanvasLayer/MenuUI/TutorialPopup" method="hide"]
