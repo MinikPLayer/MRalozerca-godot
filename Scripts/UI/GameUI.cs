@@ -24,6 +24,8 @@ public class GameUI : Control
     {
         base._Process(delta);
 
+        // RectPosition = new Vector2(0, 0);
+
         var horizontal = 0;
         if (_leftButton.IsPressed())
             horizontal -= 1;

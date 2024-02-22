@@ -108,6 +108,8 @@ namespace MRalozerca2.Scripts
             _cameraNode = GetNode<Node2D>(CameraPath);
             if(_transitionState == TransitionStates.Idle && _isReceiver)
                 _gameUiNode.Hide();
+
+            SetupTransition();
         }
 
         private bool SetTransitionReceivers(Node n)
@@ -183,6 +185,11 @@ namespace MRalozerca2.Scripts
                     _transitionLogic.End();
                     _isReceiver = false;
                 }
+            }
+            // Setup transition for non-receivers to prepare for transition
+            // Without this, the transition will jump when invoked.
+            else if(!_isReceiver) {
+                _transitionLogic.Update(0);
             }
         }
     }

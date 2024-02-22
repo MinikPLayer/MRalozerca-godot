@@ -6,6 +6,9 @@ public class CameraManager : Camera2D
     [Export]
     public NodePath TopPath;
 
+    [Export]
+    public NodePath GameUIPath;
+
     [Export] public float LostShakeDuration = 0.5f;
     [Export] public float CollectedShakeDuration = 0f;
 
