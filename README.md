@@ -1,2 +1,4 @@
-# MRalozerca2-godot
-Created using Godot 3.5.2-mono
+# MRalozerca-godot
+MRalozerca port using the Godot 3.5.2-mono engine.
+
+Created mostly for learning purposes.
